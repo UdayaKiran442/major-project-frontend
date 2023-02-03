@@ -1,10 +1,16 @@
 import { View, StyleSheet } from "react-native";
+
 import WelcomeScreen from "./screens/WelcomeScreen";
+
+import { NavigationContainer } from "@react-navigation/native";
+import AuthNavigator from "./navigation/AuthNavigation";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <WelcomeScreen />
+      <NavigationContainer>
+        <AuthNavigator />
+      </NavigationContainer>
     </View>
   );
 }

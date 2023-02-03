@@ -1,10 +1,12 @@
 import React from "react";
 import { View, StyleSheet, Text, SafeAreaView, Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import LinearGradientButton from "../components/LinearGradientButton";
 import bmu from "../assets/bmu-logo.webp";
 
 function WelcomeScreen(props) {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.name}>CampusFlow</Text>
@@ -16,10 +18,20 @@ function WelcomeScreen(props) {
       </View>
       <View style={styles.buttonContainer}>
         <View style={styles.button}>
-          <LinearGradientButton title="Sign up" />
+          <LinearGradientButton
+            title="Sign up"
+            onPress={() => {
+              navigation.navigate("signup");
+            }}
+          />
         </View>
         <View>
-          <LinearGradientButton title="Sign in" />
+          <LinearGradientButton
+            title="Sign in"
+            onPress={() => {
+              navigation.navigate("login");
+            }}
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -30,6 +42,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    backgroundColor: "black",
   },
   name: {
     color: "#ff500b",
