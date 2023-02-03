@@ -1,11 +1,32 @@
-import React from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 
 import TextInputComp from "../components/TextInput";
 import color from "../assets/colors/color";
 import LinearGradientButton from "../components/LinearGradientButton";
 
-const SignupScreen = () => {
+const SignupScreen = ({ navigation }) => {
+  //   useEffect(() => {
+  //     grantPermissions();
+  //   });
+  const grantPermissions = async () => {
+    const { granted, status } =
+      await ImagePicker.getMediaLibraryPermissionsAsync();
+    if (!granted) {
+      alert("You need to enable permissions to access library");
+    }
+  };
+  const selectImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <TextInputComp
@@ -32,7 +53,21 @@ const SignupScreen = () => {
         placeholderTextColor={color.white}
         secureTextEntry={true}
       />
-      <LinearGradientButton title="Create Account" />
+      <Text style={styles.image} onPress={selectImage}>
+        Choose Profile image <MaterialCommunityIcons name="camera" size={25} />
+      </Text>
+      <TouchableOpacity>
+        <LinearGradientButton title="Create Account" />
+      </TouchableOpacity>
+      <Text style={styles.footer}>
+        Have an account?
+        <Text
+          style={{ color: color.primary }}
+          onPress={() => navigation.navigate("login")}
+        >
+          Sign in here
+        </Text>
+      </Text>
     </SafeAreaView>
   );
 };
@@ -45,5 +80,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: color.black,
+  },
+  image: {
+    color: color.white,
+    marginBottom: 20,
+    fontSize: 20,
+  },
+  footer: {
+    color: color.white,
+    marginTop: 20,
+    fontSize: 16,
   },
 });
