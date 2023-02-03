@@ -7,13 +7,13 @@ import WelcomeScreen from "../screens/WelcomeScreen";
 const Stack = createNativeStackNavigator();
 const AuthNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="welcome">
+      <Stack.Screen name="login" component={SigninScreen} />
       <Stack.Screen
         name="welcome"
         component={WelcomeScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="login" component={SigninScreen} />
       <Stack.Screen name="signup" component={SignupScreen} />
     </Stack.Navigator>
   );
