@@ -30,7 +30,21 @@ const AuthNavigator = () => {
         component={WelcomeScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="signup" component={SignupScreen} />
+      <Stack.Screen
+        name="signup"
+        component={SignupScreen}
+        options={{
+          title: "SignUp",
+          headerStyle: {
+            backgroundColor: colors.black,
+          },
+          headerTintColor: colors.secondary,
+          headerTitleStyle: {
+            fontWeight: "700",
+            fontSize: 20,
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 };

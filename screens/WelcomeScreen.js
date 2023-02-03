@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import LinearGradientButton from "../components/LinearGradientButton";
 import bmu from "../assets/bmu-logo.webp";
+import color from "../assets/colors/color";
 
 function WelcomeScreen(props) {
   const navigation = useNavigation();
@@ -42,10 +43,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "black",
+    backgroundColor: color.black,
   },
   name: {
-    color: "#ff500b",
+    color: color.secondary,
     fontSize: 40,
     fontWeight: "bold",
   },

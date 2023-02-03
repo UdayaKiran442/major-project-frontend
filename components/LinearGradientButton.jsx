@@ -1,12 +1,13 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import color from "../assets/colors/color";
 
 export default function LinearGradientButton({ title, onPress }) {
   return (
     <LinearGradient
       style={styles.button}
-      colors={["#ff172d", "#ff500b"]}
+      colors={[color.primary, color.secondary]}
       start={[0.2, 0.5]}
     >
       <Text style={styles.buttonName} onPress={onPress}>
