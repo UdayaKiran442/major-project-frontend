@@ -24,6 +24,7 @@ const SigninScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <TextInputComp
         value={email}
+        keyboardType="email-address"
         placeholder="Enter your email"
         placeholderTextColor={color.white}
         boxWidth={300}
