@@ -47,6 +47,7 @@ const SignupScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <TextInputComp
         value={name}
+        autoCapitalize="words"
         placeholder="Enter your name"
         placeholderTextColor={color.white}
         boxWidth={300}
@@ -56,6 +57,7 @@ const SignupScreen = ({ navigation }) => {
       />
       <TextInputComp
         value={email}
+        autoCapitalize="none"
         placeholder="Enter your email"
         placeholderTextColor={color.white}
         keyboardType="email-address"
