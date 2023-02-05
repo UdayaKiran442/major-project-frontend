@@ -5,6 +5,7 @@ import SignupScreen from "../screens/SignupScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 
 import colors from "../assets/colors/color";
+import OTPScreen from "../screens/OTPScreen";
 
 const Stack = createNativeStackNavigator();
 const AuthNavigator = () => {
@@ -35,6 +36,21 @@ const AuthNavigator = () => {
         component={SignupScreen}
         options={{
           title: "SignUp",
+          headerStyle: {
+            backgroundColor: colors.black,
+          },
+          headerTintColor: colors.secondary,
+          headerTitleStyle: {
+            fontWeight: "700",
+            fontSize: 20,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="otp"
+        component={OTPScreen}
+        options={{
+          title: "OTP",
           headerStyle: {
             backgroundColor: colors.black,
           },

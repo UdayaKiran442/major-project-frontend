@@ -57,7 +57,12 @@ const SignupScreen = ({ navigation }) => {
         Choose Profile image <MaterialCommunityIcons name="camera" size={25} />
       </Text>
       <TouchableOpacity>
-        <LinearGradientButton title="Create Account" />
+        <LinearGradientButton
+          title="Create Account"
+          onPress={() => {
+            navigation.navigate("otp");
+          }}
+        />
       </TouchableOpacity>
       <Text style={styles.footer}>
         Have an account?
