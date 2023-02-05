@@ -4,6 +4,8 @@ import { View, StyleSheet, Text, TextInput } from "react-native";
 import color from "../assets/colors/color";
 import LinearGradientButton from "../components/LinearGradientButton";
 
+import FormData from "form-data";
+
 function OTPScreen(props) {
   const pin1Ref = useRef();
   const pin2Ref = useRef();
@@ -15,6 +17,15 @@ function OTPScreen(props) {
   const [pin3, setPin3] = useState(null);
   const [pin4, setPin4] = useState(null);
   const [pin5, setPin5] = useState(null);
+  const otp = pin1 + pin2 + pin3 + pin4 + pin5;
+
+  const form = new FormData();
+  form.append("token", otp);
+
+  const submitOTP = () => {
+    console.log(form);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.otpInputContainer}>
@@ -76,7 +87,7 @@ function OTPScreen(props) {
           }}
         />
       </View>
-      <LinearGradientButton title="Submit" />
+      <LinearGradientButton onPress={submitOTP} title="Submit" />
     </View>
   );
 }
