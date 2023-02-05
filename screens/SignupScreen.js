@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Keyboard,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
@@ -32,31 +38,36 @@ const SignupScreen = ({ navigation }) => {
       <TextInputComp
         placeholder="Enter your name"
         placeholderTextColor={color.white}
+        boxWidth={300}
       />
       <TextInputComp
         placeholder="Enter your email"
         placeholderTextColor={color.white}
         keyboardType="email-address"
+        boxWidth={300}
       />
       <TextInputComp
         placeholder="Enter your phone number"
         placeholderTextColor={color.white}
         keyboardType="phone-pad"
+        boxWidth={300}
       />
       <TextInputComp
         placeholder="Enter your enrollment number"
         placeholderTextColor={color.white}
         keyboardType="phone-pad"
+        boxWidth={300}
       />
       <TextInputComp
         placeholder="Enter your password"
         placeholderTextColor={color.white}
         secureTextEntry={true}
+        boxWidth={300}
       />
       <Text style={styles.image} onPress={selectImage}>
         Choose Profile image <MaterialCommunityIcons name="camera" size={25} />
       </Text>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={Keyboard.dismiss}>
         <LinearGradientButton
           title="Create Account"
           onPress={() => {

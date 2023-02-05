@@ -3,11 +3,11 @@ import React from "react";
 
 import color from "../assets/colors/color";
 
-const TextInputComp = ({ placeholder, ...otherProps }) => {
+const TextInputComp = ({ placeholder, boxWidth, ref, ...otherProps }) => {
   return (
     <View>
       <TextInput
-        style={styles.input}
+        style={[styles.input, { width: boxWidth }]}
         placeholder={placeholder}
         {...otherProps}
       />
@@ -19,7 +19,6 @@ export default TextInputComp;
 
 const styles = StyleSheet.create({
   input: {
-    width: 300,
     height: 44,
     padding: 10,
     borderWidth: 1,

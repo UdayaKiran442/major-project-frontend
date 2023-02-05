@@ -10,11 +10,13 @@ const SigninScreen = ({ navigation }) => {
       <TextInputComp
         placeholder="Enter your email"
         placeholderTextColor={color.white}
+        boxWidth={300}
       />
       <TextInputComp
         placeholder="Enter your password"
         placeholderTextColor={color.white}
         secureTextEntry={true}
+        boxWidth={300}
       />
       <LinearGradientButton title="Login" />
       <Text style={styles.footer}>
