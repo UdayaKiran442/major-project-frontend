@@ -7,6 +7,7 @@ import color from "../assets/colors/color";
 
 import FormData from "form-data";
 import * as Yup from "yup";
+import { loginApi } from "../api/user";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -22,15 +23,17 @@ const SigninScreen = ({ navigation }) => {
   const [password, setPassword] = useState();
   const [error, setError] = useState();
 
-  const form = new FormData();
+  // const form = new FormData();
 
-  form.append("email", email);
-  form.append("password", password);
+  // form.append("email", email);
+  // form.append("password", password);
 
   const loginHandler = async () => {
     try {
-      await validationSchema.validate({ email: email, password: password });
-      console.log(form);
+      // await validationSchema.validate({ email: email, password: password });
+      // console.log(form);
+      const response = await (await loginApi(email, password)).data;
+      console.log(response);
     } catch (error) {
       setError(error.message);
     }
