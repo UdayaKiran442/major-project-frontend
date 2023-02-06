@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     backgroundColor: color.black,
   },
   error: {
-    color: "red",
+    color: color.danger,
     marginBottom: 10,
   },
   footer: {
