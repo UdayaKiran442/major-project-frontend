@@ -10,7 +10,7 @@ import color from "../assets/colors/color";
 
 import * as Yup from "yup";
 
-import FormData from "form-data";
+import { newUserApi, saveOTPApi } from "../api/user";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -36,29 +36,7 @@ const SignupScreen = ({ navigation }) => {
   const [password, setPassword] = useState();
   const [phone, setPhone] = useState();
   const [enrollment, setEnrollment] = useState();
-  const [avatar, setAvatar] = useState();
   const [error, setError] = useState();
-
-  const form = new FormData();
-  form.append("name", name);
-  form.append("email", email);
-  form.append("password", password);
-  form.append("phone", phone);
-  form.append("enrollment", enrollment);
-  form.append("avatar", avatar);
-
-  const selectImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    console.log(result);
-    if (!result.canceled) {
-      setAvatar(result.assets[0].uri);
-    }
-  };
 
   const submitForm = async () => {
     try {
@@ -66,11 +44,22 @@ const SignupScreen = ({ navigation }) => {
         email,
         password,
         phone,
-        enrollment,
         name,
       });
-      console.log(form);
-      navigation.navigate("otp");
+      const response = await (
+        await newUserApi(name, email, password, phone)
+      ).data;
+      console.log(response);
+      if (response.success) {
+        const sendOTP = await (await saveOTPApi(response.results._id)).data;
+        if (sendOTP.success) {
+          navigation.navigate("otp");
+        } else {
+          alert("Error", response.error);
+        }
+      } else {
+        alert("Error", response.error);
+      }
     } catch (error) {
       setError(error.message);
     }
@@ -111,7 +100,7 @@ const SignupScreen = ({ navigation }) => {
           setPhone(text);
         }}
       />
-      <TextInputComp
+      {/* <TextInputComp
         value={enrollment}
         placeholder="Enter your enrollment number"
         placeholderTextColor={color.white}
@@ -120,7 +109,7 @@ const SignupScreen = ({ navigation }) => {
         onChangeText={(text) => {
           setEnrollment(text);
         }}
-      />
+      /> */}
       <TextInputComp
         value={password}
         placeholder="Enter your password"
@@ -131,9 +120,6 @@ const SignupScreen = ({ navigation }) => {
           setPassword(text);
         }}
       />
-      <Text style={styles.image} onPress={selectImage}>
-        Choose Profile image <MaterialCommunityIcons name="camera" size={25} />
-      </Text>
       <TouchableOpacity>
         <LinearGradientButton title="Create Account" onPress={submitForm} />
       </TouchableOpacity>
@@ -158,11 +144,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: color.black,
-  },
-  image: {
-    color: color.white,
-    marginBottom: 20,
-    fontSize: 20,
   },
   footer: {
     color: color.white,
