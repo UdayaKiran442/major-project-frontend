@@ -23,3 +23,14 @@ export const saveOTPApi = (userId) =>
       },
     }
   );
+
+export const verifyOtpApi = (userId, OTP) =>
+  apiInstance.post(
+    `/users/verify-user/${userId}`,
+    { OTP },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );

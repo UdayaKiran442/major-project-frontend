@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import * as ImagePicker from "expo-image-picker";
 
 import TextInputComp from "../components/TextInput";
 import LinearGradientButton from "../components/LinearGradientButton";
@@ -10,7 +8,7 @@ import color from "../assets/colors/color";
 
 import * as Yup from "yup";
 
-import { newUserApi, saveOTPApi } from "../api/user";
+import { newUserApi, saveOTPApi, verifyOtpApi } from "../api/user";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -49,11 +47,20 @@ const SignupScreen = ({ navigation }) => {
       const response = await (
         await newUserApi(name, email, password, phone)
       ).data;
-      console.log(response);
       if (response.success) {
         const sendOTP = await (await saveOTPApi(response.results._id)).data;
         if (sendOTP.success) {
+          alert(sendOTP.message);
           navigation.navigate("otp");
+          const verifyOtp = await (
+            await verifyOtpApi(response.results._id, sendOTP.results)
+          ).data;
+          if (verifyOtp.success) {
+            alert(`${verifyOtp.message} Login to continue to app`);
+            navigation.navigate("login");
+          } else {
+            alert("Error", verifyOtp.error);
+          }
         } else {
           alert("Error", response.error);
         }
