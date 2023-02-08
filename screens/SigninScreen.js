@@ -10,9 +10,7 @@ import * as Yup from "yup";
 import { loginApi } from "../api/user";
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
+  email: Yup.string().email().required("Email is required"),
   password: Yup.string()
     .required("Password is requried")
     .min(6, "It must be minimum of 6 characters"),
@@ -31,9 +29,12 @@ const SigninScreen = ({ navigation }) => {
   const loginHandler = async () => {
     try {
       // await validationSchema.validate({ email: email, password: password });
-      // console.log(form);
-      const response = await (await loginApi(email, password)).data;
-      console.log(response);
+      const { success, results, message } = await (
+        await loginApi(email, password)
+      ).data;
+      if (success) {
+        alert(message);
+      }
     } catch (error) {
       setError(error.message);
     }
