@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, TextInput } from "react-native";
+import * as Yup from "yup";
+import * as SecureStore from "expo-secure-store";
 
 import LinearGradientButton from "../components/LinearGradientButton";
 import TextInputComp from "../components/TextInput";
 import color from "../assets/colors/color";
 
-import FormData from "form-data";
-import * as Yup from "yup";
 import { loginApi } from "../api/user";
+import { getToken, setToken } from "../storage/storage";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required("Email is required"),
@@ -34,6 +35,9 @@ const SigninScreen = ({ navigation }) => {
       ).data;
       if (success) {
         alert(message);
+        await SecureStore.setItemAsync("token", results);
+        const token = await SecureStore.getItemAsync("token");
+        console.log("Token from secure storage:", token);
       }
     } catch (error) {
       setError(error.message);

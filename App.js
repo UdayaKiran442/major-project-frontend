@@ -1,23 +1,19 @@
-import { View, StyleSheet } from "react-native";
-
-import WelcomeScreen from "./screens/WelcomeScreen";
-
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
+import { Provider } from "react-redux";
+
 import AuthNavigator from "./navigation/AuthNavigation";
+
+import store from "./redux/store";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <NavigationContainer>
-        <AuthNavigator />
-      </NavigationContainer>
-    </View>
+    <>
+      <Provider store={store}>
+        <NavigationContainer>
+          <AuthNavigator />
+        </NavigationContainer>
+      </Provider>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000",
-  },
-});
