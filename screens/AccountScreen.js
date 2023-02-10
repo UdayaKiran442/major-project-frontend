@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as SecureStore from "expo-secure-store";
 
 import color from "../assets/colors/color";
 import AccountScreenOptions from "../components/AccountScreenOptions";
+import { logOutUserAction } from "../redux/userReducer";
 
-const AccountScreen = () => {
+const AccountScreen = ({ navigation }) => {
   const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const logOutUser = async () => {
+    console.log("Logout clicked");
+    await SecureStore.deleteItemAsync("token");
+    const token = await SecureStore.getItemAsync("token");
+    console.log("After pressing logout button:", token);
+    dispatch(logOutUserAction());
+    navigation.navigate("login");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.userName}>
@@ -61,7 +73,9 @@ const AccountScreen = () => {
             color={color.primary}
             size={30}
           />
-          <Text style={styles.logoutText}>Logout</Text>
+          <Text style={styles.logoutText} onPress={logOutUser}>
+            Logout
+          </Text>
         </View>
       </View>
     </SafeAreaView>

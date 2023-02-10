@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, TextInput } from "react-native";
 import * as Yup from "yup";
 import * as SecureStore from "expo-secure-store";
+import { useDispatch } from "react-redux";
+import jwtDecode from "jwt-decode";
 
 import LinearGradientButton from "../components/LinearGradientButton";
 import TextInputComp from "../components/TextInput";
@@ -9,6 +11,7 @@ import color from "../assets/colors/color";
 
 import { loginApi } from "../api/user";
 import { getToken, setToken } from "../storage/storage";
+import { loadUser } from "../redux/userReducer";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required("Email is required"),
@@ -21,6 +24,8 @@ const SigninScreen = ({ navigation }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
+
+  const disptch = useDispatch();
 
   // const form = new FormData();
 
@@ -36,6 +41,8 @@ const SigninScreen = ({ navigation }) => {
       if (success) {
         alert(message);
         await SecureStore.setItemAsync("token", results);
+        const user = jwtDecode(results);
+        disptch(loadUser(user));
         const token = await SecureStore.getItemAsync("token");
         console.log("Token from secure storage:", token);
       }
