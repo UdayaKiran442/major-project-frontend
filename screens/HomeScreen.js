@@ -6,7 +6,7 @@ import color from "../assets/colors/color";
 const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>HomeScreen</Text>
+      <Text style={{ color: "white" }}>HomeScreen</Text>
     </SafeAreaView>
   );
 };
