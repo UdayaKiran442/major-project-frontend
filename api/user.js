@@ -1,4 +1,5 @@
 import apiInstance from ".";
+import * as SecureStorage from "expo-secure-store";
 
 export const loginApi = (email, password) =>
   apiInstance.post("/users/login-user", { email, password });
@@ -31,6 +32,22 @@ export const verifyOtpApi = (userId, OTP) =>
     {
       headers: {
         "Content-Type": "application/json",
+      },
+    }
+  );
+
+export const updatePasswordApi = async (
+  password,
+  newPassword,
+  confirmNewPassword
+) =>
+  apiInstance.post(
+    "/users/reset-password",
+    { password, newPassword, confirmNewPassword },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${await SecureStorage.getItemAsync("token")}`,
       },
     }
   );

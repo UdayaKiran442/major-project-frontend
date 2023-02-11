@@ -3,13 +3,15 @@ import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as SecureStore from "expo-secure-store";
+import { useNavigation } from "@react-navigation/native";
 
 import color from "../assets/colors/color";
 import AccountScreenOptions from "../components/AccountScreenOptions";
 import { logOutUserAction } from "../redux/userReducer";
 
-const AccountScreen = ({ navigation }) => {
+const AccountScreen = () => {
   const { user } = useSelector((state) => state.user);
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const logOutUser = async () => {
     console.log("Logout clicked");
