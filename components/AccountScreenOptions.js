@@ -11,11 +11,17 @@ const AccountScreenOptions = ({
   text,
   marginBottom,
   fontSize,
+  onPress,
 }) => {
   return (
     <View style={[styles.container, { marginBottom: marginBottom }]}>
       <MaterialCommunityIcons size={size} color={color} name={iconName} />
-      <Text style={[styles.textOption, { fontSize: fontSize }]}>{text}</Text>
+      <Text
+        style={[styles.textOption, { fontSize: fontSize }]}
+        onPress={onPress}
+      >
+        {text}
+      </Text>
     </View>
   );
 };

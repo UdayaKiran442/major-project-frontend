@@ -50,6 +50,9 @@ const AccountScreen = ({ navigation }) => {
           text="Change Password"
           marginBottom={25}
           fontSize={25}
+          onPress={() => {
+            navigation.navigate("changePassword");
+          }}
         />
         <AccountScreenOptions
           iconName="history"

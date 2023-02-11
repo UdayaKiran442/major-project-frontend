@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AccountScreen from "../screens/AccountScreen";
 
 import colors from "../assets/colors/color";
+import ChangePasswordScreen from "../screens/ChangePassworddScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +15,21 @@ const AccountNavigation = () => (
       component={AccountScreen}
       options={{
         title: "Profile",
+        headerStyle: {
+          backgroundColor: colors.black,
+        },
+        headerTintColor: colors.secondary,
+        headerTitleStyle: {
+          fontWeight: "700",
+          fontSize: 20,
+        },
+      }}
+    />
+    <Stack.Screen
+      name="changePassword"
+      component={ChangePasswordScreen}
+      options={{
+        title: "Change Password",
         headerStyle: {
           backgroundColor: colors.black,
         },
