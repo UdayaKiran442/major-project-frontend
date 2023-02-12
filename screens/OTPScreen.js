@@ -1,29 +1,37 @@
-import React, { useState, useEffect, useRef } from "react";
-import { View, StyleSheet, Text, TextInput } from "react-native";
+import React, { useState, useRef } from "react";
+import { View, StyleSheet, TextInput } from "react-native";
 
 import color from "../assets/colors/color";
 import LinearGradientButton from "../components/LinearGradientButton";
 
-import FormData from "form-data";
+import { verifyOtpApi } from "../api/user";
 
-function OTPScreen(props) {
+function OTPScreen({ route, navigation }) {
   const pin1Ref = useRef();
   const pin2Ref = useRef();
   const pin3Ref = useRef();
   const pin4Ref = useRef();
   const pin5Ref = useRef();
-  const [pin1, setPin1] = useState(null);
-  const [pin2, setPin2] = useState(null);
-  const [pin3, setPin3] = useState(null);
-  const [pin4, setPin4] = useState(null);
-  const [pin5, setPin5] = useState(null);
-  const otp = pin1 + pin2 + pin3 + pin4 + pin5;
+  const [pin1, setPin1] = useState("");
+  const [pin2, setPin2] = useState("");
+  const [pin3, setPin3] = useState("");
+  const [pin4, setPin4] = useState("");
+  const [pin5, setPin5] = useState("");
 
-  const form = new FormData();
-  form.append("token", otp);
-
-  const submitOTP = () => {
-    console.log(form);
+  const submitOTP = async () => {
+    const otp = pin1 + pin2 + pin3 + pin4 + pin5;
+    const { userId } = route.params;
+    console.log("otp:", otp);
+    try {
+      const response = await (await verifyOtpApi(userId, otp)).data;
+      console.log("Verify otp response:", response);
+      if (response.success) {
+        alert(response.message);
+        navigation.navigate("login");
+      }
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (
