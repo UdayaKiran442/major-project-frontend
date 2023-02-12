@@ -51,16 +51,9 @@ const SignupScreen = ({ navigation }) => {
         const sendOTP = await (await saveOTPApi(response.results._id)).data;
         if (sendOTP.success) {
           alert(sendOTP.message);
-          navigation.navigate("otp");
-          const verifyOtp = await (
-            await verifyOtpApi(response.results._id, sendOTP.results)
-          ).data;
-          if (verifyOtp.success) {
-            alert(`${verifyOtp.message} Login to continue to app`);
-            navigation.navigate("login");
-          } else {
-            alert("Error", verifyOtp.error);
-          }
+          navigation.navigate("otp", {
+            userId: response.results._id,
+          });
         } else {
           alert("Error", response.error);
         }
