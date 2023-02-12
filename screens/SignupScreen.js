@@ -38,12 +38,12 @@ const SignupScreen = ({ navigation }) => {
 
   const submitForm = async () => {
     try {
-      await validationSchema.validate({
-        email,
-        password,
-        phone,
-        name,
-      });
+      // await validationSchema.validate({
+      //   email,
+      //   password,
+      //   phone,
+      //   name,
+      // });
       const response = await (
         await newUserApi(name, email, password, phone)
       ).data;

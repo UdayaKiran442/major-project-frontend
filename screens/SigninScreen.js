@@ -86,6 +86,15 @@ const SigninScreen = ({ navigation }) => {
           Create Account here
         </Text>
       </Text>
+      <Text style={styles.footer}>
+        Forgot Password?
+        <Text
+          style={{ color: color.primary }}
+          onPress={() => navigation.navigate("forgotPassword")}
+        >
+          Click here
+        </Text>
+      </Text>
     </SafeAreaView>
   );
 };

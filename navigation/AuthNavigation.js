@@ -3,9 +3,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SigninScreen from "../screens/SigninScreen";
 import SignupScreen from "../screens/SignupScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
+import OTPScreen from "../screens/OTPScreen";
+import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
+import ForgotPasswordOTPScreen from "../screens/ForgotPasswordOTPScreen";
 
 import colors from "../assets/colors/color";
-import OTPScreen from "../screens/OTPScreen";
 
 const Stack = createNativeStackNavigator();
 const AuthNavigator = () => {
@@ -51,6 +53,35 @@ const AuthNavigator = () => {
         component={OTPScreen}
         options={{
           title: "OTP",
+          headerStyle: {
+            backgroundColor: colors.black,
+          },
+          headerTintColor: colors.secondary,
+          headerTitleStyle: {
+            fontWeight: "700",
+            fontSize: 20,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="forgotPassword"
+        component={ForgotPasswordScreen}
+        options={{
+          title: "Forgot Password",
+          headerStyle: {
+            backgroundColor: colors.black,
+          },
+          headerTintColor: colors.secondary,
+          headerTitleStyle: {
+            fontWeight: "700",
+            fontSize: 20,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="forgotPasswordOTP"
+        component={ForgotPasswordOTPScreen}
+        options={{
           headerStyle: {
             backgroundColor: colors.black,
           },
