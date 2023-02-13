@@ -8,6 +8,7 @@ import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import ForgotPasswordOTPScreen from "../screens/ForgotPasswordOTPScreen";
 
 import colors from "../assets/colors/color";
+import ResetForgotPasswordScreen from "../screens/ResetForgotPasswordScreen";
 
 const Stack = createNativeStackNavigator();
 const AuthNavigator = () => {
@@ -81,6 +82,20 @@ const AuthNavigator = () => {
       <Stack.Screen
         name="forgotPasswordOTP"
         component={ForgotPasswordOTPScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: colors.black,
+          },
+          headerTintColor: colors.secondary,
+          headerTitleStyle: {
+            fontWeight: "700",
+            fontSize: 20,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="resetForgotPassword"
+        component={ResetForgotPasswordScreen}
         options={{
           headerStyle: {
             backgroundColor: colors.black,

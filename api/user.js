@@ -51,3 +51,40 @@ export const updatePasswordApi = async (
       },
     }
   );
+
+export const forgotPasswordApi = async (email) =>
+  apiInstance.post(
+    "/users/forgot-password",
+    { email },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+export const verifyForgotPasswordOTPApi = async (email, OTP) =>
+  apiInstance.post(
+    "/users/forgot-password/verify-otp",
+    { email, OTP },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+export const resetForgotPasswordApi = async (
+  email,
+  newPassword,
+  confirmNewPassword
+) =>
+  apiInstance.post(
+    "/users/reset-forgot-password",
+    { email, newPassword, confirmNewPassword },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );

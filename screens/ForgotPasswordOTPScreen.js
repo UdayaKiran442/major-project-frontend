@@ -1,20 +1,41 @@
 import React, { useState, useRef } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
+import { verifyForgotPasswordOTPApi } from "../api/user";
 
 import color from "../assets/colors/color";
 import LinearGradientButton from "../components/LinearGradientButton";
 
-const ForgotPasswordOTPScreen = () => {
+const ForgotPasswordOTPScreen = ({ navigation, route }) => {
   const pin1Ref = useRef();
   const pin2Ref = useRef();
   const pin3Ref = useRef();
   const pin4Ref = useRef();
   const pin5Ref = useRef();
-  const [pin1, setPin1] = useState(null);
-  const [pin2, setPin2] = useState(null);
-  const [pin3, setPin3] = useState(null);
-  const [pin4, setPin4] = useState(null);
-  const [pin5, setPin5] = useState(null);
+  const [pin1, setPin1] = useState("");
+  const [pin2, setPin2] = useState("");
+  const [pin3, setPin3] = useState("");
+  const [pin4, setPin4] = useState("");
+  const [pin5, setPin5] = useState("");
+  const { userEmail } = route.params;
+  const handleSubmit = async () => {
+    const otp = pin1 + pin2 + pin3 + pin4 + pin5;
+    try {
+      const response = await (
+        await verifyForgotPasswordOTPApi(userEmail, otp)
+      ).data;
+      if (response.success) {
+        alert(response.message);
+        navigation.navigate("resetForgotPassword", {
+          user_email: response.results,
+        });
+      } else {
+        alert(response.error);
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+    navigation.navigate("resetForgotPassword");
+  };
   return (
     <View style={styles.container}>
       <View style={styles.otpInputContainer}>
@@ -76,7 +97,7 @@ const ForgotPasswordOTPScreen = () => {
           }}
         />
       </View>
-      <LinearGradientButton title="Submit" />
+      <LinearGradientButton title="Submit" onPress={handleSubmit} />
     </View>
   );
 };
