@@ -2,9 +2,9 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AccountScreen from "../screens/AccountScreen";
+import ChangePasswordScreen from "../screens/ChangePassworddScreen";
 
 import colors from "../assets/colors/color";
-import ChangePasswordScreen from "../screens/ChangePassworddScreen";
 
 const Stack = createNativeStackNavigator();
 

@@ -7,6 +7,7 @@ import HomeScreen from "../screens/HomeScreen";
 import color from "../assets/colors/color";
 
 import AccountNavigation from "./AccountNavigation";
+import CGDCNavigator from "./CGDCNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -32,6 +33,15 @@ const AppNavigator = () => {
           options={{
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons name="home" size={25} color={color} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="CGDC"
+          component={CGDCNavigator}
+          options={{
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="post" size={25} color={color} />
             ),
           }}
         />
