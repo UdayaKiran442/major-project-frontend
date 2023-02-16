@@ -20,7 +20,17 @@ const CGDCNavigator = () => (
     <Stack.Screen
       name="createCGDCPost"
       component={CreateCDGCPostScreen}
-      options={{}}
+      options={{
+        title: "Create Post",
+        headerStyle: {
+          backgroundColor: color.black,
+        },
+        headerTintColor: color.secondary,
+        headerTitleStyle: {
+          fontWeight: "700",
+          fontSize: 20,
+        },
+      }}
     />
   </Stack.Navigator>
 );
