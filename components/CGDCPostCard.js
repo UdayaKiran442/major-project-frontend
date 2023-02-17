@@ -1,9 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
 import color from "../assets/colors/color";
 
 const CGDCPostCard = ({ userImgUri, userName, postContent, postImgUri }) => {
+  const { user } = useSelector((state) => state.user);
   return (
     <View style={styles.postsContainer}>
       <View style={styles.posts}>
@@ -28,6 +31,31 @@ const CGDCPostCard = ({ userImgUri, userName, postContent, postImgUri }) => {
             />
           </View>
         )}
+        <View style={styles.optionsContainer}>
+          {user.role === "cgdc" && (
+            <>
+              <MaterialCommunityIcons
+                style={styles.options}
+                name="pencil"
+                color={color.white}
+                size={20}
+              />
+              <MaterialCommunityIcons
+                style={styles.options}
+                name="delete"
+                color={color.white}
+                size={20}
+              />
+            </>
+          )}
+
+          <MaterialCommunityIcons
+            style={styles.options}
+            name="share"
+            color={color.white}
+            size={20}
+          />
+        </View>
       </View>
     </View>
   );
@@ -75,5 +103,14 @@ const styles = StyleSheet.create({
     color: color.white,
     fontSize: 15,
     fontWeight: "500",
+  },
+  optionsContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    marginRight: 20,
+    marginTop: 10,
+  },
+  options: {
+    marginRight: 10,
   },
 });
