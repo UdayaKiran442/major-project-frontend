@@ -12,3 +12,14 @@ export const createCGDCPostApi = async (content, link, category, image) =>
       },
     }
   );
+
+export const getCGDCPostsApi = async () =>
+  apiInstance.post(
+    "/posts",
+    {},
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
