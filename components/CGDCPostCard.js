@@ -1,12 +1,33 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, Share, Linking } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 
 import color from "../assets/colors/color";
 
-const CGDCPostCard = ({ userImgUri, userName, postContent, postImgUri }) => {
+const CGDCPostCard = ({
+  userImgUri,
+  userName,
+  postContent,
+  postImgUri,
+  postId,
+}) => {
   const { user } = useSelector((state) => state.user);
+  const SharePost = async () => {
+    try {
+      const result = await Share.share({
+        message: "Check out this post",
+        url: "exp://10.7.2.154:19000",
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          alert("Post shared successfully");
+        }
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   return (
     <View style={styles.postsContainer}>
       <View style={styles.posts}>
@@ -54,6 +75,7 @@ const CGDCPostCard = ({ userImgUri, userName, postContent, postImgUri }) => {
             name="share"
             color={color.white}
             size={20}
+            onPress={SharePost}
           />
         </View>
       </View>

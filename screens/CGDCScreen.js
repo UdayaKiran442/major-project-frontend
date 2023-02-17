@@ -50,6 +50,7 @@ const CGDCScreen = ({ navigation }) => {
               postImgUri={post.image?.url}
               userImgUri={require("../assets/me.jpeg")}
               userName={post.user.name}
+              postId={post._id}
             />
           </View>
         ))}
