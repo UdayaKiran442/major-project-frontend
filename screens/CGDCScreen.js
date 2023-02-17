@@ -41,12 +41,16 @@ const CGDCScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       )}
-      <CGDCPostCard
-        postContent="This is post content"
-        postImgUri="https://code-garage.fr/content/images/2021/05/freestocks-mw6Onwg4frY-unsplash-en.jpg"
-        userImgUri={require("../assets/me.jpeg")}
-        userName="Name"
-      />
+      {posts?.map((post, index) => (
+        <View key={post._id}>
+          <CGDCPostCard
+            postContent={post.content}
+            postImgUri={post.image?.url}
+            userImgUri={require("../assets/me.jpeg")}
+            userName={post.user.name}
+          />
+        </View>
+      ))}
     </SafeAreaView>
   );
 };

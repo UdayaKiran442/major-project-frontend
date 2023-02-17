@@ -21,7 +21,7 @@ const CGDCPostCard = ({ userImgUri, userName, postContent, postImgUri }) => {
         <View style={styles.postsImageContainer}>
           <Image
             source={{
-              uri: { postImgUri },
+              uri: postImgUri,
             }}
             style={styles.postsImage}
           />
