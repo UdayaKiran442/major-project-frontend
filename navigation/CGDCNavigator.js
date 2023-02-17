@@ -33,7 +33,21 @@ const CGDCNavigator = () => (
         },
       }}
     />
-    <Stack.Screen name="updateCGDCPost" component={UpdateCGDCPostScreen} />
+    <Stack.Screen
+      name="updateCGDCPost"
+      component={UpdateCGDCPostScreen}
+      options={{
+        title: "Update Post",
+        headerStyle: {
+          backgroundColor: color.red,
+        },
+        headerTintColor: color.white,
+        headerTitleStyle: {
+          fontWeight: "700",
+          fontSize: 20,
+        },
+      }}
+    />
   </Stack.Navigator>
 );
 
