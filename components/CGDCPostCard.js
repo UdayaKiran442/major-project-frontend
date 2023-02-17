@@ -18,14 +18,16 @@ const CGDCPostCard = ({ userImgUri, userName, postContent, postImgUri }) => {
         <View style={styles.postsContentContainer}>
           <Text style={styles.postsContent}>{postContent}</Text>
         </View>
-        <View style={styles.postsImageContainer}>
-          <Image
-            source={{
-              uri: postImgUri,
-            }}
-            style={styles.postsImage}
-          />
-        </View>
+        {postImgUri && (
+          <View style={styles.postsImageContainer}>
+            <Image
+              source={{
+                uri: postImgUri,
+              }}
+              style={styles.postsImage}
+            />
+          </View>
+        )}
       </View>
     </View>
   );
