@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -41,16 +42,18 @@ const CGDCScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       )}
-      {posts?.map((post, index) => (
-        <View key={post._id}>
-          <CGDCPostCard
-            postContent={post.content}
-            postImgUri={post.image?.url}
-            userImgUri={require("../assets/me.jpeg")}
-            userName={post.user.name}
-          />
-        </View>
-      ))}
+      <ScrollView>
+        {posts?.map((post, index) => (
+          <View key={post._id}>
+            <CGDCPostCard
+              postContent={post.content}
+              postImgUri={post.image?.url}
+              userImgUri={require("../assets/me.jpeg")}
+              userName={post.user.name}
+            />
+          </View>
+        ))}
+      </ScrollView>
     </SafeAreaView>
   );
 };
