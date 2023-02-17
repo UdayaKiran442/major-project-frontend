@@ -5,6 +5,7 @@ import color from "../assets/colors/color";
 
 import CGDCScreen from "../screens/CGDCScreen";
 import CreateCDGCPostScreen from "../screens/CreateCDGCPostScreen";
+import UpdateCGDCPostScreen from "../screens/UpdateCGDCPostScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,7 @@ const CGDCNavigator = () => (
         },
       }}
     />
+    <Stack.Screen name="updateCGDCPost" component={UpdateCGDCPostScreen} />
   </Stack.Navigator>
 );
 

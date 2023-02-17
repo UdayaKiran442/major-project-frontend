@@ -1,7 +1,16 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, Share, Linking } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Share,
+  Linking,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 import color from "../assets/colors/color";
 
@@ -13,6 +22,7 @@ const CGDCPostCard = ({
   postId,
 }) => {
   const { user } = useSelector((state) => state.user);
+  const navigation = useNavigation();
   const SharePost = async () => {
     try {
       const result = await Share.share({
@@ -60,6 +70,9 @@ const CGDCPostCard = ({
                 name="pencil"
                 color={color.white}
                 size={20}
+                onPress={() =>
+                  navigation.navigate("updateCGDCPost", { postId })
+                }
               />
               <MaterialCommunityIcons
                 style={styles.options}
