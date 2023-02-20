@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
+import { useIsFocused } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
 import color from "../assets/colors/color";
@@ -19,12 +19,13 @@ import CGDCPostCard from "../components/CGDCPostCard";
 const CGDCScreen = ({ navigation }) => {
   const { user } = useSelector((state) => state.user);
   const { posts, getPosts } = useCGDC();
+  const isFocussed = useIsFocused();
   const fetchCGDCPosts = async () => {
     await getPosts();
   };
   useEffect(() => {
     fetchCGDCPosts();
-  }, []);
+  }, [isFocussed]);
   return (
     <SafeAreaView style={styles.container}>
       {user.role === "cgdc" && (

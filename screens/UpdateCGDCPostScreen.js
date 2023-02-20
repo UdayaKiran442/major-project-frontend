@@ -7,9 +7,9 @@ import LinearGradientButton from "../components/LinearGradientButton";
 
 import color from "../assets/colors/color";
 
-import { getCGDCPostByIdApi } from "../api/cgdc";
+import { getCGDCPostByIdApi, updateCGDCPostApi } from "../api/cgdc";
 
-const UpdateCGDCPostScreen = ({ route }) => {
+const UpdateCGDCPostScreen = ({ navigation, route }) => {
   const [content, setContent] = useState();
   const [link, setLink] = useState();
   const [category, setCategory] = useState();
@@ -22,8 +22,20 @@ const UpdateCGDCPostScreen = ({ route }) => {
     { label: "Hackathon", value: "hackathons" },
     { label: "Event", value: "events" },
   ]);
-  const updatePost = () => {
-    console.log(content, category, link);
+  const updatePost = async () => {
+    try {
+      const { success, message, error } = await (
+        await updateCGDCPostApi(postId, content, link, category)
+      ).data;
+      if (success) {
+        alert(message);
+        navigation.navigate("cgdcScreen");
+      } else {
+        alert(error);
+      }
+    } catch (error) {
+      alert(error.message);
+    }
   };
   const getPostById = async () => {
     try {

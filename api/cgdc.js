@@ -35,3 +35,15 @@ export const getCGDCPostByIdApi = async (id) =>
       },
     }
   );
+
+export const updateCGDCPostApi = async (id, content, link, category) =>
+  apiInstance.post(
+    `/posts/update/${id}`,
+    { content, link, category },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${await SecureStorage.getItemAsync("token")}`,
+      },
+    }
+  );
