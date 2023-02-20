@@ -5,12 +5,12 @@ import {
   View,
   Image,
   Share,
-  Linking,
   TouchableWithoutFeedback,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import * as Linking from "expo-linking";
 
 import color from "../assets/colors/color";
 
@@ -19,6 +19,7 @@ const CGDCPostCard = ({
   userName,
   postContent,
   postImgUri,
+  postLink,
   postId,
 }) => {
   const { user } = useSelector((state) => state.user);
@@ -51,6 +52,16 @@ const CGDCPostCard = ({
         </View>
         <View style={styles.postsContentContainer}>
           <Text style={styles.postsContent}>{postContent}</Text>
+          {postLink && (
+            <Text
+              style={styles.link}
+              onPress={() => {
+                Linking.openURL(postLink);
+              }}
+            >
+              {postLink}
+            </Text>
+          )}
         </View>
         {postImgUri && (
           <View style={styles.postsImageContainer}>
@@ -138,6 +149,9 @@ const styles = StyleSheet.create({
     color: color.white,
     fontSize: 15,
     fontWeight: "500",
+  },
+  link: {
+    color: color.link,
   },
   optionsContainer: {
     flexDirection: "row",

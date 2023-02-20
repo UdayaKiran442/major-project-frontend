@@ -5,4 +5,5 @@ export default {
   white: "#fff",
   danger: "#ff5252",
   red: "red",
+  link: "#4c9cea",
 };
