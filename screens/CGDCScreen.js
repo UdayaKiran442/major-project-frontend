@@ -53,6 +53,7 @@ const CGDCScreen = ({ navigation }) => {
               userName={post.user.name}
               postId={post._id}
               postLink={post.link}
+              createdAt={post.createdAt}
             />
           </View>
         ))}

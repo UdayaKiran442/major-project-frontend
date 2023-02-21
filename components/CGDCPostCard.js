@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,9 +7,11 @@ import {
   Share,
   TouchableWithoutFeedback,
 } from "react-native";
+import moment from "moment";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
 import * as Linking from "expo-linking";
 
 import color from "../assets/colors/color";
@@ -21,8 +23,11 @@ const CGDCPostCard = ({
   postImgUri,
   postLink,
   postId,
+  createdAt,
 }) => {
   const { user } = useSelector((state) => state.user);
+  const isFocussed = useIsFocused();
+  const [time, setTime] = useState();
   const navigation = useNavigation();
   const SharePost = async () => {
     try {
@@ -39,6 +44,27 @@ const CGDCPostCard = ({
       alert(error.message);
     }
   };
+  const calculatePostTime = () => {
+    const date = new Date();
+    const date1 = moment(date.toISOString());
+    const date2 = moment(createdAt);
+    const diffInSeconds = date1.diff(date2, "seconds");
+    const diffInMinutes = date1.diff(date2, "minutes");
+    const diffInHours = date1.diff(date2, "hours");
+    const diffInDays = date1.diff(date2, "days");
+    if (diffInSeconds >= 0 && diffInSeconds <= 60) {
+      setTime(diffInSeconds + "sec");
+    } else if (diffInMinutes <= 60) {
+      setTime(diffInMinutes + "min");
+    } else if (diffInHours <= 24) {
+      setTime(diffInHours + "h");
+    } else {
+      setTime(diffInDays + "d");
+    }
+  };
+  useEffect(() => {
+    calculatePostTime();
+  }, [isFocussed]);
   return (
     <View style={styles.postsContainer}>
       <View style={styles.posts}>
@@ -48,6 +74,7 @@ const CGDCPostCard = ({
           </View>
           <View style={styles.userNameContainer}>
             <Text style={styles.userName}>{userName}</Text>
+            <Text style={styles.timeline}>{time}</Text>
           </View>
         </View>
         <View style={styles.postsContentContainer}>
@@ -119,6 +146,12 @@ const styles = StyleSheet.create({
   },
   userNameContainer: {
     marginLeft: 20,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  timeline: {
+    color: color.white,
+    marginLeft: "10%",
   },
   userImageContainer: {},
   userImage: {
