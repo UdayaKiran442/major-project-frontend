@@ -67,6 +67,7 @@ const CGDCScreen = ({ navigation }) => {
               postId={post._id}
               postLink={post.link}
               createdAt={post.createdAt}
+              fetchCGDCPosts={fetchCGDCPosts}
             />
           </View>
         ))}

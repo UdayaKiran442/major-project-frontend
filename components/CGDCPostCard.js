@@ -26,10 +26,12 @@ const CGDCPostCard = ({
   postLink,
   postId,
   createdAt,
+  fetchCGDCPosts,
 }) => {
   const { user } = useSelector((state) => state.user);
   const isFocussed = useIsFocused();
   const [time, setTime] = useState();
+  const [postDeleted, setPostDeleted] = useState(false);
   const navigation = useNavigation();
   const SharePost = async () => {
     try {
@@ -68,6 +70,7 @@ const CGDCPostCard = ({
     try {
       const response = (await deleteCGDCPostApi(postId)).data;
       if (response.success) {
+        setPostDeleted(true);
         alert(response.message);
         navigation.navigate("cgdcScreen");
       } else {
@@ -78,8 +81,12 @@ const CGDCPostCard = ({
     }
   };
   useEffect(() => {
+    if (postDeleted) {
+      fetchCGDCPosts();
+      setPostDeleted(false);
+    }
     calculatePostTime();
-  }, [isFocussed]);
+  }, [isFocussed, postDeleted]);
   return (
     <View style={styles.postsContainer}>
       <View style={styles.posts}>
