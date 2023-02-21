@@ -16,6 +16,8 @@ import * as Linking from "expo-linking";
 
 import color from "../assets/colors/color";
 
+import { deleteCGDCPostApi } from "../api/cgdc";
+
 const CGDCPostCard = ({
   userImgUri,
   userName,
@@ -60,6 +62,19 @@ const CGDCPostCard = ({
       setTime(diffInHours + "h");
     } else {
       setTime(diffInDays + "d");
+    }
+  };
+  const deleteCGDCPost = async () => {
+    try {
+      const response = (await deleteCGDCPostApi(postId)).data;
+      if (response.success) {
+        alert(response.message);
+        navigation.navigate("cgdcScreen");
+      } else {
+        alert(response.error);
+      }
+    } catch (error) {
+      alert(error.message);
     }
   };
   useEffect(() => {
@@ -117,6 +132,7 @@ const CGDCPostCard = ({
                 name="delete"
                 color={color.white}
                 size={20}
+                onPress={deleteCGDCPost}
               />
             </>
           )}

@@ -47,3 +47,15 @@ export const updateCGDCPostApi = async (id, content, link, category) =>
       },
     }
   );
+
+export const deleteCGDCPostApi = async (id) =>
+  apiInstance.post(
+    `/posts/delete/${id}`,
+    {},
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${await SecureStorage.getItemAsync("token")}`,
+      },
+    }
+  );
