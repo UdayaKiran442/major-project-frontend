@@ -38,7 +38,9 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "@types/metro-config": "^0.66.0",
+    "metro-config": "^0.75.0"
   },
   "private": true
 }
