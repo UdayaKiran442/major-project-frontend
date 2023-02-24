@@ -42,10 +42,17 @@ export const getCGDCPostByIdApi = async (id) =>
     }
   );
 
-export const updateCGDCPostApi = async (id, content, link, category) =>
+export const updateCGDCPostApi = async (
+  id,
+  content,
+  link,
+  category,
+  public_id,
+  secure_url
+) =>
   apiInstance.post(
     `/posts/update/${id}`,
-    { content, link, category },
+    { content, link, category, public_id, secure_url },
     {
       headers: {
         "Content-Type": "application/json",

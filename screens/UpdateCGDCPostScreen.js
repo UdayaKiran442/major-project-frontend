@@ -4,15 +4,20 @@ import DropDownPicker from "react-native-dropdown-picker";
 
 import TextInputComp from "../components/TextInput";
 import LinearGradientButton from "../components/LinearGradientButton";
+import SelectImage from "../components/SelectImage";
 
 import color from "../assets/colors/color";
 
 import { getCGDCPostByIdApi, updateCGDCPostApi } from "../api/cgdc";
+import uploadImage from "../utils/uploadImage";
+import selectImage from "../utils/ImagePicker";
 
 const UpdateCGDCPostScreen = ({ navigation, route }) => {
   const [content, setContent] = useState();
   const [link, setLink] = useState();
   const [category, setCategory] = useState();
+  const [public_id, setPublicId] = useState();
+  const [secure_url, setSecureUrl] = useState();
   const { postId } = route.params;
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
@@ -24,8 +29,16 @@ const UpdateCGDCPostScreen = ({ navigation, route }) => {
   ]);
   const updatePost = async () => {
     try {
+      console.log(secure_url, public_id);
       const { success, message, error } = await (
-        await updateCGDCPostApi(postId, content, link, category)
+        await updateCGDCPostApi(
+          postId,
+          content,
+          link,
+          category,
+          public_id,
+          secure_url
+        )
       ).data;
       if (success) {
         alert(message);
@@ -37,6 +50,14 @@ const UpdateCGDCPostScreen = ({ navigation, route }) => {
       alert(error.message);
     }
   };
+
+  const selectNewImage = async () => {
+    const selectedImage = await selectImage();
+    const { public_id, secure_url } = await uploadImage(selectedImage.base64);
+    setPublicId(public_id);
+    setSecureUrl(secure_url);
+  };
+
   const getPostById = async () => {
     try {
       const { results, success, error } = await (
@@ -45,6 +66,11 @@ const UpdateCGDCPostScreen = ({ navigation, route }) => {
       if (success) {
         setContent(results.content);
         setCategory(results.category);
+        {
+          public_id && setPublicId(results.image.public_id);
+          secure_url && setSecureUrl(results.image.secure_url);
+        }
+
         {
           results.link && setLink(results.link);
         }
@@ -93,6 +119,7 @@ const UpdateCGDCPostScreen = ({ navigation, route }) => {
         }}
         setValue={setCategory}
       />
+      <SelectImage onPress={selectNewImage} />
       <LinearGradientButton title="Update Post" onPress={updatePost} />
     </View>
   );
