@@ -53,7 +53,7 @@ const CreateCDGCPostScreen = ({ navigation }) => {
     const apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
     const data = {
       file: base64Img,
-      upload_preset: "kqql3bgh",
+      upload_preset: "ey6rjuav",
     };
     return fetch(apiUrl, {
       body: JSON.stringify(data),
@@ -65,7 +65,7 @@ const CreateCDGCPostScreen = ({ navigation }) => {
   const handleSubmit = async () => {
     try {
       const response = await (
-        await createCGDCPostApi(content, link, category, image)
+        await createCGDCPostApi(content, link, category, publicId, secureUrl)
       ).data;
       console.log(response);
 

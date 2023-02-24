@@ -1,10 +1,16 @@
 import apiInstance from ".";
 import * as SecureStorage from "expo-secure-store";
 
-export const createCGDCPostApi = async (content, link, category, image) =>
+export const createCGDCPostApi = async (
+  content,
+  link,
+  category,
+  public_id,
+  secure_url
+) =>
   apiInstance.post(
     "/posts/new-post",
-    { content, link, category, image },
+    { content, link, category, public_id, secure_url },
     {
       headers: {
         "Content-Type": "application/json",
