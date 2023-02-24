@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 import DropDownPicker from "react-native-dropdown-picker";
 
 import TextInputComp from "../components/TextInput";
@@ -8,6 +9,7 @@ import TextInputComp from "../components/TextInput";
 import color from "../assets/colors/color";
 import LinearGradientButton from "../components/LinearGradientButton";
 import { createCGDCPostApi } from "../api/cgdc";
+import { cloudName, apiKey, uploadPreset } from "../config/cloudinary";
 
 const CreateCDGCPostScreen = ({ navigation }) => {
   const [content, setContent] = useState();
@@ -21,28 +23,52 @@ const CreateCDGCPostScreen = ({ navigation }) => {
     { label: "Hackathon", value: "hackathons" },
     { label: "Event", value: "events" },
   ]);
+
   const [image, setImage] = useState();
+  const [publicId, setPublicId] = useState();
+  const [secureUrl, setSecureUrl] = useState();
   const selectImage = async () => {
     try {
       const results = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
       });
       if (!results.canceled) {
         setImage(results.assets[0].uri);
+        const { public_id, secure_url } = await uploadImage(
+          results.assets[0].base64
+        );
+        console.log("Uploaded Image:", secure_url);
+        setPublicId(public_id);
+        setSecureUrl(secure_url);
       }
     } catch (error) {
-      alert("Error in selecting image:", error.message);
+      console.log("Error in selecting image:", error);
     }
   };
+  const uploadImage = async (base64) => {
+    const base64Img = `data:image/jpg;base64,${base64}`;
+    const apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
+    const data = {
+      file: base64Img,
+      upload_preset: "kqql3bgh",
+    };
+    return fetch(apiUrl, {
+      body: JSON.stringify(data),
+      headers: { "content-type": "application/json" },
+      method: "POST",
+    }).then((response) => response.json());
+  };
+
   const handleSubmit = async () => {
     try {
       const response = await (
         await createCGDCPostApi(content, link, category, image)
       ).data;
       console.log(response);
+
       if (response.success) {
         alert(response.message);
         navigation.navigate("cgdcScreen");
