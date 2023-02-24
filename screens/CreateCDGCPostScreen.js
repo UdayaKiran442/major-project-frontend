@@ -53,7 +53,7 @@ const CreateCDGCPostScreen = ({ navigation }) => {
     const apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
     const data = {
       file: base64Img,
-      upload_preset: "ey6rjuav",
+      upload_preset: "majorproject",
     };
     return fetch(apiUrl, {
       body: JSON.stringify(data),
