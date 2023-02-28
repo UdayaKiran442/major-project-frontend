@@ -1,17 +1,19 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
 import HomeScreen from "../screens/HomeScreen";
 
 import color from "../assets/colors/color";
-
 import AccountNavigation from "./AccountNavigation";
 import CGDCNavigator from "./CGDCNavigator";
+import GatePassNavigation from "./GatePassNavigator";
 
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
+  const { user } = useSelector((state) => state.user);
   return (
     <>
       <Tab.Navigator
@@ -36,6 +38,18 @@ const AppNavigator = () => {
             ),
           }}
         />
+        {(user.role === "user" || user.role === "warden") && (
+          <Tab.Screen
+            name="GatePass"
+            component={GatePassNavigation}
+            options={{
+              tabBarIcon: ({ color }) => (
+                <MaterialCommunityIcons name="gate" size={25} color={color} />
+              ),
+            }}
+          />
+        )}
+
         <Tab.Screen
           name="CGDC"
           component={CGDCNavigator}
