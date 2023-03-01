@@ -7,8 +7,9 @@ import color from "../assets/colors/color";
 
 import TextInputComp from "../components/TextInput";
 import LinearGradientButton from "../components/LinearGradientButton";
+import { raiseGatePassRequestApi } from "../api/gatePass";
 
-const RaiseGatePassRequestScreen = () => {
+const RaiseGatePassRequestScreen = ({ navigation }) => {
   const { user } = useSelector((state) => state.user);
 
   const [roomNumber, setRoomNumber] = useState();
@@ -18,15 +19,19 @@ const RaiseGatePassRequestScreen = () => {
   const [mode, setMode] = useState("");
   const [show, setShow] = useState(false);
   const [showOut, setShowOut] = useState(false);
+  const [onChangeInDate, setOnChangeInDate] = useState(false);
+  const [onChangeOutDate, setOnChangeOutDate] = useState(false);
 
   const onChangeIn = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDateTimeIn(currentDate);
+    setOnChangeInDate(true);
   };
 
   const onChangeOut = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDateTimeOut(currentDate);
+    setOnChangeOutDate(true);
   };
 
   const showDateTimePicker = () => {
@@ -40,7 +45,25 @@ const RaiseGatePassRequestScreen = () => {
   };
 
   const onSubmit = async () => {
-    console.log(roomNumber, reason, datetimein, datetimeout);
+    try {
+      const response = await (
+        await raiseGatePassRequestApi(
+          roomNumber,
+          datetimeout,
+          datetimein,
+          reason
+        )
+      ).data;
+      if (response.success) {
+        alert(response.message);
+        navigation.navigate("gatePass");
+      } else {
+        alert(response.error);
+        navigation.navigate("gatePass");
+      }
+    } catch (error) {
+      alert("Error", error.message);
+    }
   };
 
   return (
@@ -80,24 +103,17 @@ const RaiseGatePassRequestScreen = () => {
           boxWidth={400}
           onChangeText={(text) => setReason(text)}
         />
-        <Text style={{ color: color.white }}>
-          In Date and Time: {datetimein.toLocaleString()}
-        </Text>
-        <Text style={{ color: color.white }}>
-          Out Date and Time: {datetimeout.toLocaleString()}
-        </Text>
-        <Button title="Select Date and time in" onPress={showDateTimePicker} />
-        {show && (
-          <DateTimePicker
-            value={datetimein}
-            mode={mode}
-            is24Hour={true}
-            onChange={onChangeIn}
-            display="default"
-            style={styles.datetime}
-            minimumDate={new Date(Date.now())}
-          />
+        {onChangeInDate && (
+          <Text style={{ color: color.white }}>
+            In Date and Time: {datetimein.toLocaleString()}
+          </Text>
         )}
+        {onChangeOutDate && (
+          <Text style={{ color: color.white }}>
+            Out Date and Time: {datetimeout.toLocaleString()}
+          </Text>
+        )}
+
         <Button
           title="Select Date and time out"
           onPress={showDateTimePickerOut}
@@ -113,6 +129,19 @@ const RaiseGatePassRequestScreen = () => {
             minimumDate={new Date(Date.now())}
           />
         )}
+        <Button title="Select Date and time in" onPress={showDateTimePicker} />
+        {show && (
+          <DateTimePicker
+            value={datetimein}
+            mode={mode}
+            is24Hour={true}
+            onChange={onChangeIn}
+            display="default"
+            style={styles.datetime}
+            minimumDate={new Date(Date.now())}
+          />
+        )}
+
         <LinearGradientButton title="Raise Request" onPress={onSubmit} />
       </View>
     </View>
