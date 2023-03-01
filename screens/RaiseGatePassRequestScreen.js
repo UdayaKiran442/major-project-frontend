@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import color from "../assets/colors/color";
@@ -8,7 +9,8 @@ import TextInputComp from "../components/TextInput";
 import LinearGradientButton from "../components/LinearGradientButton";
 
 const RaiseGatePassRequestScreen = () => {
-  const [hostelName, setHostelName] = useState();
+  const { user } = useSelector((state) => state.user);
+
   const [roomNumber, setRoomNumber] = useState();
   const [reason, setReason] = useState();
   const [datetimeout, setDateTimeOut] = useState(new Date());
@@ -16,34 +18,51 @@ const RaiseGatePassRequestScreen = () => {
   const [mode, setMode] = useState("");
   const [show, setShow] = useState(false);
   const [showOut, setShowOut] = useState(false);
+
   const onChangeIn = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDateTimeIn(currentDate);
   };
+
   const onChangeOut = (event, selectedDate) => {
     const currentDate = selectedDate;
     setDateTimeOut(currentDate);
   };
+
   const showDateTimePicker = () => {
     setShow(!show);
     setMode("datetime");
   };
+
   const showDateTimePickerOut = () => {
     setShowOut(!showOut);
     setMode("datetime");
   };
+
   const onSubmit = async () => {
-    console.log(hostelName, roomNumber, reason, datetimein, datetimeout);
+    console.log(roomNumber, reason, datetimein, datetimeout);
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.requestContainer}>
         <TextInputComp
-          value={hostelName}
-          placeholder="Hostel Name"
-          placeholderTextColor={color.white}
+          value={user.name}
           boxWidth={400}
-          onChangeText={(text) => setHostelName(text)}
+          editable={false}
+          selectTextOnFocus={false}
+        />
+        <TextInputComp
+          value={user.email}
+          boxWidth={400}
+          editable={false}
+          selectTextOnFocus={false}
+        />
+        <TextInputComp
+          value={user.hostelName}
+          boxWidth={400}
+          editable={false}
+          selectTextOnFocus={false}
         />
         <TextInputComp
           value={roomNumber}
