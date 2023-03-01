@@ -22,3 +22,26 @@ export const raiseGatePassRequestApi = async (
       },
     }
   );
+
+export const getStudentGatePassRequestApi = async () =>
+  apiInstance.post(
+    "/users/get-gate-passes-id",
+    {},
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${await SecureStorage.getItemAsync("token")}`,
+      },
+    }
+  );
+export const getWardenGatePassRequestApi = async () =>
+  apiInstance.post(
+    "/warden/warden-gate-pass",
+    {},
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${await SecureStorage.getItemAsync("token")}`,
+      },
+    }
+  );
