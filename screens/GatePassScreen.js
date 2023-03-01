@@ -47,11 +47,13 @@ const GatePassScreen = ({ navigation }) => {
   }, []);
   return (
     <View style={styles.container}>
-      <PlusButton
-        screenName="raiseRequest"
-        iconName="plus"
-        onPress={() => navigation.navigate("gatePassRequest")}
-      />
+      {user.role === "user" && (
+        <PlusButton
+          screenName="raiseRequest"
+          iconName="plus"
+          onPress={() => navigation.navigate("gatePassRequest")}
+        />
+      )}
     </View>
   );
 };

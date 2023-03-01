@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SafeAreaView, StyleSheet, Text, TextInput } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import * as Yup from "yup";
 import * as SecureStore from "expo-secure-store";
 import { useDispatch } from "react-redux";
@@ -12,6 +12,7 @@ import color from "../assets/colors/color";
 import { loginApi } from "../api/user";
 import { getToken, setToken } from "../storage/storage";
 import { loadUser } from "../redux/userReducer";
+import { wardenLoginApi } from "../api/warden";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required("Email is required"),
@@ -51,6 +52,24 @@ const SigninScreen = ({ navigation }) => {
     }
   };
 
+  const wardenLoginHandler = async () => {
+    try {
+      const { success, results, message } = await (
+        await wardenLoginApi(email, password)
+      ).data;
+      if (success) {
+        alert(message);
+        await SecureStore.setItemAsync("token", results);
+        const user = jwtDecode(results);
+        disptch(loadUser(user));
+        const token = await SecureStore.getItemAsync("token");
+        console.log("Token from secure storage:", token);
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <TextInputComp
@@ -76,7 +95,13 @@ const SigninScreen = ({ navigation }) => {
         }}
       />
       {error && <Text style={styles.error}>{error}</Text>}
-      <LinearGradientButton title="Login" onPress={loginHandler} />
+      <LinearGradientButton title="Student Login" onPress={loginHandler} />
+      <View style={styles.wardenButton}>
+        <LinearGradientButton
+          title="Warden Login"
+          onPress={wardenLoginHandler}
+        />
+      </View>
       <Text style={styles.footer}>
         Don't have an account?
         <Text
@@ -116,5 +141,8 @@ const styles = StyleSheet.create({
     color: color.white,
     marginTop: 20,
     fontSize: 16,
+  },
+  wardenButton: {
+    marginTop: 10,
   },
 });
