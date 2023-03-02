@@ -3,20 +3,57 @@ import { Button, StyleSheet, Text, View } from "react-native";
 
 import color from "../assets/colors/color";
 
-const GatePassCard = () => {
+const GatePassCard = ({
+  name,
+  email,
+  hostelName,
+  roomNumber,
+  datetimein,
+  datetimeout,
+  reason,
+  onAccept,
+  onReject,
+  onRejectAcceptedRequest,
+  onAcceptRejectedRequest,
+  accepted,
+  rejected,
+}) => {
   return (
     <View>
       <View style={styles.gatePassCardContainer}>
-        <Text style={[styles.name, styles.text]}>Name:Uday</Text>
-        <Text style={[styles.name, styles.text]}>Email:uday@gmail.com</Text>
-        <Text style={[styles.name, styles.text]}>Apartment name:Apt-A</Text>
-        <Text style={[styles.name, styles.text]}>Room number:A-211</Text>
-        <Text style={[styles.name, styles.text]}>Datetimein:123-141-431</Text>
-        <Text style={[styles.name, styles.text]}>Datetimeout:413-234-532</Text>
-        <Text style={[styles.name, styles.text]}>Reason:Something</Text>
+        <Text style={[styles.name, styles.text]}>Name:{name}</Text>
+        <Text style={[styles.name, styles.text]}>Email:{email}</Text>
+        <Text style={[styles.name, styles.text]}>
+          Apartment name:{hostelName}
+        </Text>
+        <Text style={[styles.name, styles.text]}>Room number:{roomNumber}</Text>
+        <Text style={[styles.name, styles.text]}>Datetimein:{datetimein}</Text>
+        <Text style={[styles.name, styles.text]}>
+          Datetimeout:{datetimeout}
+        </Text>
+        <Text style={[styles.name, styles.text]}>Reason:{reason}</Text>
         <View style={styles.buttonContainer}>
-          <Button title="Accept" color={color.green} />
-          <Button title="Reject" color={color.danger} />
+          {!accepted && !rejected && (
+            <>
+              <Button title="Accept" color={color.green} onPress={onAccept} />
+              <Button title="Reject" color={color.danger} onPress={onReject} />
+            </>
+          )}
+
+          {accepted && (
+            <Button
+              title="Accepted"
+              color={color.green}
+              onPress={onRejectAcceptedRequest}
+            />
+          )}
+          {rejected && (
+            <Button
+              title="Rejected"
+              color={color.danger}
+              onPress={onAcceptRejectedRequest}
+            />
+          )}
         </View>
       </View>
     </View>

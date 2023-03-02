@@ -56,7 +56,7 @@ const GatePassScreen = ({ navigation }) => {
         />
       )}
       <View style={styles.gatePass}>
-        <GatePassCard />
+        <GatePassCard accepted={true} />
       </View>
     </View>
   );
