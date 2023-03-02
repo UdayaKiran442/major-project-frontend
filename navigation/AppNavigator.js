@@ -49,16 +49,18 @@ const AppNavigator = () => {
             }}
           />
         )}
+        {(user.role === "user" || user.role === "cgdc") && (
+          <Tab.Screen
+            name="CGDC"
+            component={CGDCNavigator}
+            options={{
+              tabBarIcon: ({ color }) => (
+                <MaterialCommunityIcons name="post" size={25} color={color} />
+              ),
+            }}
+          />
+        )}
 
-        <Tab.Screen
-          name="CGDC"
-          component={CGDCNavigator}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="post" size={25} color={color} />
-            ),
-          }}
-        />
         <Tab.Screen
           name="Account"
           component={AccountNavigation}
