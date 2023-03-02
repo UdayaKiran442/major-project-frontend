@@ -10,6 +10,7 @@ import {
   getStudentGatePassRequestApi,
   getWardenGatePassRequestApi,
 } from "../api/gatePass";
+import GatePassCard from "../components/GatePassCard";
 
 const GatePassScreen = ({ navigation }) => {
   const { user } = useSelector((state) => state.user);
@@ -54,6 +55,9 @@ const GatePassScreen = ({ navigation }) => {
           onPress={() => navigation.navigate("gatePassRequest")}
         />
       )}
+      <View style={styles.gatePass}>
+        <GatePassCard />
+      </View>
     </View>
   );
 };
@@ -65,4 +69,5 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: color.black,
   },
+  gatePass: {},
 });

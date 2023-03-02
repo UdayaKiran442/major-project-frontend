@@ -6,4 +6,5 @@ export default {
   danger: "#ff5252",
   red: "red",
   link: "#4c9cea",
+  green: "#1f8e3d",
 };
