@@ -7,4 +7,5 @@ export default {
   red: "red",
   link: "#4c9cea",
   green: "#1f8e3d",
+  lightBlack: "#5a5959",
 };

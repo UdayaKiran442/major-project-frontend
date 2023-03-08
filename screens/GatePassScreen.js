@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { useSelector } from "react-redux";
 
 import color from "../assets/colors/color";
@@ -19,6 +19,7 @@ import {
 const GatePassScreen = ({ navigation }) => {
   const { user } = useSelector((state) => state.user);
   const [gatePass, setGatePass] = useState([]);
+  const [view, setView] = useState("pending");
   const getStudentRequests = async () => {
     try {
       const response = await (await getStudentGatePassRequestApi()).data;
@@ -76,6 +77,26 @@ const GatePassScreen = ({ navigation }) => {
   }, []);
   return (
     <View style={styles.container}>
+      <View style={styles.requestsContainer}>
+        <Text
+          onPress={() => setView("pending")}
+          style={view === "pending" ? styles.activeTab : styles.requestName}
+        >
+          Pending{" "}
+        </Text>
+        <Text
+          onPress={() => setView("accepted")}
+          style={view === "accepted" ? styles.activeTab : styles.requestName}
+        >
+          Accepted{" "}
+        </Text>
+        <Text
+          onPress={() => setView("rejected")}
+          style={view === "rejected" ? styles.activeTab : styles.requestName}
+        >
+          Rejected{" "}
+        </Text>
+      </View>
       {user.role === "user" && (
         <PlusButton
           screenName="raiseRequest"
@@ -113,4 +134,18 @@ const styles = StyleSheet.create({
     backgroundColor: color.black,
   },
   gatePass: {},
+  requestsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 10,
+    marginRight: 60,
+  },
+  requestName: {
+    color: color.lightBlack,
+    marginLeft: "10%",
+  },
+  activeTab: {
+    color: color.white,
+    marginLeft: "10%",
+  },
 });
