@@ -3,51 +3,47 @@ import { Button, StyleSheet, Text, View } from "react-native";
 
 import color from "../assets/colors/color";
 
-const GatePassCard = ({
-  name,
-  email,
-  hostelName,
-  roomNumber,
-  datetimein,
-  datetimeout,
-  reason,
-  onAccept,
-  onReject,
-  onRejectAcceptedRequest,
-  onAcceptRejectedRequest,
-  accepted,
-  rejected,
-}) => {
+const GatePassCard = ({ gatePass }) => {
+  const onAccept = () => {};
+  const onReject = () => {};
   return (
     <View>
       <View style={styles.gatePassCardContainer}>
-        <Text style={[styles.name, styles.text]}>Name:{name}</Text>
-        <Text style={[styles.name, styles.text]}>Email:{email}</Text>
         <Text style={[styles.name, styles.text]}>
-          Apartment name:{hostelName}
+          Name:{gatePass.student.name}
         </Text>
-        <Text style={[styles.name, styles.text]}>Room number:{roomNumber}</Text>
-        <Text style={[styles.name, styles.text]}>Datetimein:{datetimein}</Text>
         <Text style={[styles.name, styles.text]}>
-          Datetimeout:{datetimeout}
+          Email:{gatePass.student.email}
         </Text>
-        <Text style={[styles.name, styles.text]}>Reason:{reason}</Text>
+        <Text style={[styles.name, styles.text]}>
+          Apartment name:{gatePass.student.hostelName}
+        </Text>
+        <Text style={[styles.name, styles.text]}>
+          Room number:{gatePass.student.roomNumber}
+        </Text>
+        <Text style={[styles.name, styles.text]}>
+          Datetimein:{gatePass.datetimein}
+        </Text>
+        <Text style={[styles.name, styles.text]}>
+          Datetimeout:{gatePass.datetimeout}
+        </Text>
+        <Text style={[styles.name, styles.text]}>Reason:{gatePass.reason}</Text>
         <View style={styles.buttonContainer}>
-          {!accepted && !rejected && (
+          {!gatePass.accepted && !gatePass.rejected && (
             <>
               <Button title="Accept" color={color.green} onPress={onAccept} />
               <Button title="Reject" color={color.danger} onPress={onReject} />
             </>
           )}
 
-          {accepted && (
+          {gatePass.accepted && (
             <Button
               title="Accepted"
               color={color.green}
               onPress={onRejectAcceptedRequest}
             />
           )}
-          {rejected && (
+          {gatePass.rejected && (
             <Button
               title="Rejected"
               color={color.danger}

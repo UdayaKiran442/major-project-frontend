@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 
@@ -14,6 +14,7 @@ import GatePassCard from "../components/GatePassCard";
 
 const GatePassScreen = ({ navigation }) => {
   const { user } = useSelector((state) => state.user);
+  const [gatePass, setGatePass] = useState([]);
   const getStudentRequests = async () => {
     try {
       const response = await (await getStudentGatePassRequestApi()).data;
@@ -31,6 +32,7 @@ const GatePassScreen = ({ navigation }) => {
       const response = await (await getWardenGatePassRequestApi()).data;
       if (response.success) {
         console.log(response.results);
+        setGatePass(response.results.requests);
       } else {
         console.log(response.error);
       }
@@ -56,7 +58,10 @@ const GatePassScreen = ({ navigation }) => {
         />
       )}
       <View style={styles.gatePass}>
-        <GatePassCard accepted={true} />
+        {gatePass.map(
+          (pass) =>
+            !pass.isAccepted && <GatePassCard key={pass._id} gatePass={pass} />
+        )}
       </View>
     </View>
   );
