@@ -3,9 +3,7 @@ import { Button, StyleSheet, Text, View } from "react-native";
 
 import color from "../assets/colors/color";
 
-const GatePassCard = ({ gatePass }) => {
-  const onAccept = () => {};
-  const onReject = () => {};
+const GatePassCard = ({ gatePass, onAccept, onReject }) => {
   return (
     <View>
       <View style={styles.gatePassCardContainer}>

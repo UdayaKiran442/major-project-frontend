@@ -11,6 +11,10 @@ import {
   getWardenGatePassRequestApi,
 } from "../api/gatePass";
 import GatePassCard from "../components/GatePassCard";
+import {
+  acceptGatePassRequestApi,
+  rejectGatePassRequestApi,
+} from "../api/warden";
 
 const GatePassScreen = ({ navigation }) => {
   const { user } = useSelector((state) => state.user);
@@ -40,6 +44,28 @@ const GatePassScreen = ({ navigation }) => {
       alert(error.message);
     }
   };
+  const onAccept = async (id) => {
+    try {
+      const response = await (await acceptGatePassRequestApi(id)).data;
+      if (response.success) {
+        alert(response.message);
+        getWardenGatePasses();
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+  const onReject = async (id) => {
+    try {
+      const response = await (await rejectGatePassRequestApi(id)).data;
+      if (response.success) {
+        alert(response.message);
+        getWardenGatePasses();
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   useEffect(() => {
     if (user.role === "user") {
       getStudentRequests();
@@ -60,7 +86,19 @@ const GatePassScreen = ({ navigation }) => {
       <View style={styles.gatePass}>
         {gatePass.map(
           (pass) =>
-            !pass.isAccepted && <GatePassCard key={pass._id} gatePass={pass} />
+            !pass.isAccepted &&
+            !pass.isRejected && (
+              <GatePassCard
+                key={pass._id}
+                gatePass={pass}
+                onAccept={() => {
+                  onAccept(pass._id);
+                }}
+                onReject={() => {
+                  onReject(pass._id);
+                }}
+              />
+            )
         )}
       </View>
     </View>
