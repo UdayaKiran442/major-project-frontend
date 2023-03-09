@@ -17,7 +17,7 @@ const GatePassCard = ({ gatePass, onAccept, onReject }) => {
           Apartment name:{gatePass.student.hostelName}
         </Text>
         <Text style={[styles.name, styles.text]}>
-          Room number:{gatePass.student.roomNumber}
+          Room number:{gatePass.roomNumber}
         </Text>
         <Text style={[styles.name, styles.text]}>
           Datetimein:{gatePass.datetimein}
@@ -27,26 +27,18 @@ const GatePassCard = ({ gatePass, onAccept, onReject }) => {
         </Text>
         <Text style={[styles.name, styles.text]}>Reason:{gatePass.reason}</Text>
         <View style={styles.buttonContainer}>
-          {!gatePass.accepted && !gatePass.rejected && (
+          {!gatePass.isAccepted && !gatePass.isRejected && (
             <>
               <Button title="Accept" color={color.green} onPress={onAccept} />
               <Button title="Reject" color={color.danger} onPress={onReject} />
             </>
           )}
 
-          {gatePass.accepted && (
-            <Button
-              title="Accepted"
-              color={color.green}
-              onPress={onRejectAcceptedRequest}
-            />
+          {gatePass.isAccepted && (
+            <Button title="Accepted" color={color.green} />
           )}
-          {gatePass.rejected && (
-            <Button
-              title="Rejected"
-              color={color.danger}
-              onPress={onAcceptRejectedRequest}
-            />
+          {gatePass.isRejected && (
+            <Button title="Rejected" color={color.danger} />
           )}
         </View>
       </View>

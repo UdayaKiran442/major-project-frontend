@@ -105,22 +105,37 @@ const GatePassScreen = ({ navigation }) => {
         />
       )}
       <View style={styles.gatePass}>
-        {gatePass.map(
-          (pass) =>
-            !pass.isAccepted &&
-            !pass.isRejected && (
-              <GatePassCard
-                key={pass._id}
-                gatePass={pass}
-                onAccept={() => {
-                  onAccept(pass._id);
-                }}
-                onReject={() => {
-                  onReject(pass._id);
-                }}
-              />
-            )
-        )}
+        {view == "pending" &&
+          gatePass.map(
+            (pass) =>
+              !pass.isAccepted &&
+              !pass.isRejected && (
+                <GatePassCard key={pass._id} gatePass={pass} />
+              )
+          )}
+        {view == "accepted" &&
+          gatePass.map(
+            (pass) =>
+              pass.isAccepted &&
+              !pass.isRejected && (
+                <GatePassCard
+                  key={pass._id}
+                  gatePass={pass}
+                  onAccept={() => {
+                    onAccept(pass._id);
+                  }}
+                  onReject={() => {
+                    onReject(pass._id);
+                  }}
+                />
+              )
+          )}
+        {view == "rejected" &&
+          gatePass.map(
+            (pass) =>
+              !pass.isAccepted &&
+              pass.isRejected && <GatePassCard key={pass._id} gatePass={pass} />
+          )}
       </View>
     </View>
   );
