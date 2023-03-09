@@ -25,6 +25,7 @@ const GatePassScreen = ({ navigation }) => {
       const response = await (await getStudentGatePassRequestApi()).data;
       if (response.success) {
         console.log(response.results);
+        setGatePass(response.results.gatePassRequests);
       } else {
         console.log(response.error);
       }

@@ -1,21 +1,38 @@
 import React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 
 import color from "../assets/colors/color";
 
 const GatePassCard = ({ gatePass, onAccept, onReject }) => {
+  const { user } = useSelector((state) => state.user);
   return (
     <View>
       <View style={styles.gatePassCardContainer}>
-        <Text style={[styles.name, styles.text]}>
-          Name:{gatePass.student.name}
-        </Text>
-        <Text style={[styles.name, styles.text]}>
-          Email:{gatePass.student.email}
-        </Text>
-        <Text style={[styles.name, styles.text]}>
-          Apartment name:{gatePass.student.hostelName}
-        </Text>
+        {user.role === "user" ? (
+          <Text style={[styles.name, styles.text]}>Name:{user.name}</Text>
+        ) : (
+          <Text style={[styles.name, styles.text]}>
+            Name:{gatePass.student.name}
+          </Text>
+        )}
+        {user.role === "user" ? (
+          <Text style={[styles.name, styles.text]}>Email:{user.email}</Text>
+        ) : (
+          <Text style={[styles.name, styles.text]}>
+            Email:{gatePass.student.email}
+          </Text>
+        )}
+        {user.role === "user" ? (
+          <Text style={[styles.name, styles.text]}>
+            Apartment name:{user.hostelName}
+          </Text>
+        ) : (
+          <Text style={[styles.name, styles.text]}>
+            Apartment name:{gatePass.student.hostelName}
+          </Text>
+        )}
+
         <Text style={[styles.name, styles.text]}>
           Room number:{gatePass.roomNumber}
         </Text>
