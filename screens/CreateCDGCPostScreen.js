@@ -5,25 +5,26 @@ import * as FileSystem from "expo-file-system";
 import DropDownPicker from "react-native-dropdown-picker";
 
 import TextInputComp from "../components/TextInput";
+import LinearGradientButton from "../components/LinearGradientButton";
 
 import color from "../assets/colors/color";
-import LinearGradientButton from "../components/LinearGradientButton";
+
 import { createCGDCPostApi } from "../api/cgdc";
-import { cloudName, apiKey, uploadPreset } from "../config/cloudinary";
+
+import { cloudName } from "../config/cloudinary";
 
 const CreateCDGCPostScreen = ({ navigation }) => {
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [content, setContent] = useState();
   const [link, setLink] = useState();
   const [category, setCategory] = useState();
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
-    { label: "Select", value: "select" },
     { label: "Internship", value: "internships" },
     { label: "Full time job", value: "fulltime" },
     { label: "Hackathon", value: "hackathons" },
     { label: "Event", value: "events" },
   ]);
-
   const [image, setImage] = useState();
   const [publicId, setPublicId] = useState();
   const [secureUrl, setSecureUrl] = useState();
@@ -35,27 +36,25 @@ const CreateCDGCPostScreen = ({ navigation }) => {
         aspect: [4, 3],
         quality: 1,
       });
+      console.log(results.assets);
       if (!results.canceled) {
-        console.log("Assests", results.assets);
         setImage(results.assets[0].uri);
         const base64URI = await FileSystem.readAsStringAsync(
           results.assets[0].uri,
           { encoding: FileSystem.EncodingType.Base64 }
         );
+        setUploadingImage(true);
         const { public_id, secure_url } = await uploadImage(base64URI);
-        console.log("Base64:", base64URI);
-        console.log("Uploaded Image:", secure_url);
         setPublicId(public_id);
         setSecureUrl(secure_url);
+        setUploadingImage(false);
       }
     } catch (error) {
       console.log("Error in selecting image:", error);
     }
   };
   const uploadImage = async (base64) => {
-    // console.log("Base 64:", base64);
     const base64Img = `data:image/jpg;base64,${base64}`;
-    //`data:image/jpg;base64,${result.base64}`
     const apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
     const data = {
       file: base64Img,
@@ -114,9 +113,17 @@ const CreateCDGCPostScreen = ({ navigation }) => {
         setValue={setCategory}
       />
       <View style={styles.selectImageContainer}>
-        <Text style={styles.selectImage} onPress={selectImage}>
-          Select an image
-        </Text>
+        {image ? (
+          uploadingImage ? (
+            <Text style={styles.selectImage}>Uploading image.....</Text>
+          ) : (
+            <Text style={styles.selectImage}>{publicId}</Text>
+          )
+        ) : (
+          <Text style={styles.selectImage} onPress={selectImage}>
+            Select an image
+          </Text>
+        )}
       </View>
       <LinearGradientButton title="Create Post" onPress={handleSubmit} />
     </View>
