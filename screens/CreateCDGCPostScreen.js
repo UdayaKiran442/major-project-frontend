@@ -12,8 +12,10 @@ import color from "../assets/colors/color";
 import { createCGDCPostApi } from "../api/cgdc";
 
 import { cloudName } from "../config/cloudinary";
+import LoadingComponent from "../components/LoadingComponent";
 
 const CreateCDGCPostScreen = ({ navigation }) => {
+  const [loading, setLoading] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [content, setContent] = useState();
   const [link, setLink] = useState();
@@ -69,11 +71,12 @@ const CreateCDGCPostScreen = ({ navigation }) => {
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       const response = await (
         await createCGDCPostApi(content, link, category, publicId, secureUrl)
       ).data;
       console.log(response);
-
+      setLoading(false);
       if (response.success) {
         alert(response.message);
         navigation.navigate("cgdcScreen");
@@ -81,51 +84,62 @@ const CreateCDGCPostScreen = ({ navigation }) => {
         alert(response.error);
       }
     } catch (error) {
+      setLoading(false);
       alert(error.message);
     }
   };
   return (
     <View style={styles.container}>
-      <TextInputComp
-        value={content}
-        placeholder="Enter the content"
-        placeholderTextColor={color.white}
-        multiline={true}
-        numberOfLines={200}
-        boxWidth={400}
-        onChangeText={(text) => setContent(text)}
-      />
-      <TextInputComp
-        value={link}
-        placeholder="Paste a link"
-        placeholderTextColor={color.white}
-        boxWidth={400}
-        onChangeText={(text) => setLink(text)}
-      />
-      <DropDownPicker
-        items={items}
-        setItems={setItems}
-        open={open}
-        onPress={() => {
-          setOpen(!open);
-        }}
-        value={category}
-        setValue={setCategory}
-      />
-      <View style={styles.selectImageContainer}>
-        {image ? (
-          uploadingImage ? (
-            <Text style={styles.selectImage}>Uploading image.....</Text>
-          ) : (
-            <Text style={styles.selectImage}>{publicId}</Text>
-          )
-        ) : (
-          <Text style={styles.selectImage} onPress={selectImage}>
-            Select an image
-          </Text>
-        )}
-      </View>
-      <LinearGradientButton title="Create Post" onPress={handleSubmit} />
+      {loading ? (
+        <LoadingComponent />
+      ) : (
+        <>
+          <TextInputComp
+            value={content}
+            placeholder="Enter the content"
+            placeholderTextColor={color.white}
+            multiline={true}
+            numberOfLines={200}
+            boxWidth={400}
+            onChangeText={(text) => setContent(text)}
+          />
+          <TextInputComp
+            value={link}
+            placeholder="Paste a link"
+            placeholderTextColor={color.white}
+            boxWidth={400}
+            onChangeText={(text) => setLink(text)}
+          />
+          <DropDownPicker
+            items={items}
+            setItems={setItems}
+            open={open}
+            onPress={() => {
+              setOpen(!open);
+            }}
+            value={category}
+            setValue={setCategory}
+          />
+          <View style={styles.selectImageContainer}>
+            {image ? (
+              uploadingImage ? (
+                <Text style={styles.selectImage}>Uploading image.....</Text>
+              ) : (
+                <Text style={styles.selectImage}>{publicId}</Text>
+              )
+            ) : (
+              <Text style={styles.selectImage} onPress={selectImage}>
+                Select an image
+              </Text>
+            )}
+          </View>
+          <LinearGradientButton
+            title="Create Post"
+            disabled={uploadingImage}
+            onPress={handleSubmit}
+          />
+        </>
+      )}
     </View>
   );
 };
