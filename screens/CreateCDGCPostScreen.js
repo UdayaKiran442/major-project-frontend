@@ -36,10 +36,14 @@ const CreateCDGCPostScreen = ({ navigation }) => {
         quality: 1,
       });
       if (!results.canceled) {
+        console.log("Assests", results.assets);
         setImage(results.assets[0].uri);
-        const { public_id, secure_url } = await uploadImage(
-          results.assets[0].base64
+        const base64URI = await FileSystem.readAsStringAsync(
+          results.assets[0].uri,
+          { encoding: FileSystem.EncodingType.Base64 }
         );
+        const { public_id, secure_url } = await uploadImage(base64URI);
+        console.log("Base64:", base64URI);
         console.log("Uploaded Image:", secure_url);
         setPublicId(public_id);
         setSecureUrl(secure_url);
@@ -49,11 +53,13 @@ const CreateCDGCPostScreen = ({ navigation }) => {
     }
   };
   const uploadImage = async (base64) => {
+    // console.log("Base 64:", base64);
     const base64Img = `data:image/jpg;base64,${base64}`;
+    //`data:image/jpg;base64,${result.base64}`
     const apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
     const data = {
       file: base64Img,
-      upload_preset: "majorproject",
+      upload_preset: "majorproject1",
     };
     return fetch(apiUrl, {
       body: JSON.stringify(data),
