@@ -44,26 +44,18 @@ const SigninScreen = ({ navigation }) => {
         await SecureStore.setItemAsync("token", results);
         const user = jwtDecode(results);
         disptch(loadUser(user));
-        const token = await SecureStore.getItemAsync("token");
-        console.log("Token from secure storage:", token);
-      }
-    } catch (error) {
-      setError(error.message);
-    }
-  };
-
-  const wardenLoginHandler = async () => {
-    try {
-      const { success, results, message } = await (
-        await wardenLoginApi(email, password)
-      ).data;
-      if (success) {
-        alert(message);
-        await SecureStore.setItemAsync("token", results);
-        const user = jwtDecode(results);
-        disptch(loadUser(user));
-        const token = await SecureStore.getItemAsync("token");
-        console.log("Token from secure storage:", token);
+      } else {
+        const { success, results, message, error } = await (
+          await wardenLoginApi(email, password)
+        ).data;
+        if (success) {
+          alert(message);
+          await SecureStore.setItemAsync("token", results);
+          const user = jwtDecode(results);
+          disptch(loadUser(user));
+        } else {
+          alert(error);
+        }
       }
     } catch (error) {
       setError(error.message);
@@ -95,13 +87,7 @@ const SigninScreen = ({ navigation }) => {
         }}
       />
       {error && <Text style={styles.error}>{error}</Text>}
-      <LinearGradientButton title="Student Login" onPress={loginHandler} />
-      <View style={styles.wardenButton}>
-        <LinearGradientButton
-          title="Warden Login"
-          onPress={wardenLoginHandler}
-        />
-      </View>
+      <LinearGradientButton title="Login" onPress={loginHandler} />
       <Text style={styles.footer}>
         Don't have an account?
         <Text

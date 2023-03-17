@@ -9,7 +9,7 @@ import AppNavigator from "./navigation/AppNavigator";
 import { loadUser } from "./redux/userReducer";
 
 const Index = () => {
-  const { user, isAuthenticated } = useSelector((state) => state.user);
+  const { isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const setLoggedInUser = async () => {
     try {
@@ -28,7 +28,6 @@ const Index = () => {
     <>
       <NavigationContainer>
         {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
-        {/* <AppNavigator /> */}
       </NavigationContainer>
     </>
   );
