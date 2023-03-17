@@ -56,14 +56,17 @@ const AccountScreen = () => {
             navigation.navigate("changePassword");
           }}
         />
-        <AccountScreenOptions
-          iconName="history"
-          size={25}
-          color={color.white}
-          text="Previous bookings"
-          marginBottom={25}
-          fontSize={25}
-        />
+        {user.role == "user" && (
+          <AccountScreenOptions
+            iconName="history"
+            size={25}
+            color={color.white}
+            text="Previous bookings"
+            marginBottom={25}
+            fontSize={25}
+          />
+        )}
+
         <AccountScreenOptions
           iconName="bookmark"
           size={25}
