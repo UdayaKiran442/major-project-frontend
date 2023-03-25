@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
 import * as Linking from "expo-linking";
+import * as WebBrowser from "expo-web-browser";
 
 import color from "../assets/colors/color";
 
@@ -80,6 +81,11 @@ const CGDCPostCard = ({
       alert(error.message);
     }
   };
+
+  const handleLinkPress = async (link) => {
+    await WebBrowser.openBrowserAsync(link);
+  };
+
   useEffect(() => {
     if (postDeleted) {
       fetchCGDCPosts();
@@ -102,12 +108,7 @@ const CGDCPostCard = ({
         <View style={styles.postsContentContainer}>
           <Text style={styles.postsContent}>{postContent}</Text>
           {postLink && (
-            <Text
-              style={styles.link}
-              onPress={() => {
-                Linking.openURL(postLink);
-              }}
-            >
+            <Text style={styles.link} onPress={() => handleLinkPress(postLink)}>
               {postLink}
             </Text>
           )}
