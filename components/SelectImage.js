@@ -3,11 +3,11 @@ import { StyleSheet, Text, View } from "react-native";
 
 import color from "../assets/colors/color";
 
-const SelectImage = ({ onPress }) => {
+const SelectImage = ({ onPress, buttonTitle }) => {
   return (
     <View style={styles.selectImageContainer}>
       <Text style={styles.selectImage} onPress={onPress}>
-        Select an image
+        {buttonTitle}
       </Text>
     </View>
   );

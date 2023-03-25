@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+import * as FileSystem from "expo-file-system";
 
 import TextInputComp from "../components/TextInput";
 import LinearGradientButton from "../components/LinearGradientButton";
@@ -18,6 +19,7 @@ const UpdateCGDCPostScreen = ({ navigation, route }) => {
   const [category, setCategory] = useState();
   const [public_id, setPublicId] = useState();
   const [secure_url, setSecureUrl] = useState();
+  const [loading, setLoading] = useState(false);
   const { postId } = route.params;
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
@@ -53,7 +55,10 @@ const UpdateCGDCPostScreen = ({ navigation, route }) => {
 
   const selectNewImage = async () => {
     const selectedImage = await selectImage();
-    const { public_id, secure_url } = await uploadImage(selectedImage.base64);
+    const base64URI = await FileSystem.readAsStringAsync(selectedImage.uri, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
+    const { public_id, secure_url } = await uploadImage(base64URI);
     setPublicId(public_id);
     setSecureUrl(secure_url);
   };
@@ -67,12 +72,12 @@ const UpdateCGDCPostScreen = ({ navigation, route }) => {
         setContent(results.content);
         setCategory(results.category);
         {
-          public_id && setPublicId(results.image.public_id);
-          secure_url && setSecureUrl(results.image.secure_url);
+          results.image?.public_id && setPublicId(results.image?.public_id);
+          results.image?.secure_url && setSecureUrl(results.image?.secure_url);
         }
 
         {
-          results.link && setLink(results.link);
+          results?.link && setLink(results?.link);
         }
       } else {
         alert(error);
@@ -119,7 +124,18 @@ const UpdateCGDCPostScreen = ({ navigation, route }) => {
         }}
         setValue={setCategory}
       />
-      <SelectImage onPress={selectNewImage} />
+      {/* {public_id ? (
+        <SelectImage onPress={selectNewImage} buttonTitle={public_id} />
+      ) : (
+        <SelectImage onPress={selectNewImage} buttonTitle="Select an image" />
+      )} */}
+      {loading ? (
+        <Text style={{ color: color.red }}>Uploading...</Text>
+      ) : public_id ? (
+        <SelectImage onPress={selectNewImage} buttonTitle={public_id} />
+      ) : (
+        <SelectImage onPress={selectNewImage} buttonTitle="Select an image" />
+      )}
       <LinearGradientButton title="Update Post" onPress={updatePost} />
     </View>
   );
