@@ -10,15 +10,11 @@ import TextInputComp from "../components/TextInput";
 const ResetForgotPasswordScreen = ({ route, navigation }) => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-  const { user_email } = route.params;
+  const { useremail } = route.params;
   const handleSubmit = async () => {
     try {
       const response = await (
-        await resetForgotPasswordApi(
-          user_email,
-          newPassword,
-          confirmNewPassword
-        )
+        await resetForgotPasswordApi(useremail, newPassword, confirmNewPassword)
       ).data;
       if (response.success) {
         alert(response.message);

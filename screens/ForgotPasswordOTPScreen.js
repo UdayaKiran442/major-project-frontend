@@ -26,7 +26,7 @@ const ForgotPasswordOTPScreen = ({ navigation, route }) => {
       if (response.success) {
         alert(response.message);
         navigation.navigate("resetForgotPassword", {
-          user_email: response.results,
+          useremail: response.results,
         });
       } else {
         alert(response.error);
@@ -34,7 +34,6 @@ const ForgotPasswordOTPScreen = ({ navigation, route }) => {
     } catch (error) {
       alert(error.message);
     }
-    navigation.navigate("resetForgotPassword");
   };
   return (
     <View style={styles.container}>
