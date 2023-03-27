@@ -4,10 +4,17 @@ import { getToken } from "../storage/storage";
 export const loginApi = (email, password) =>
   apiInstance.post("/users/login-user", { email, password });
 
-export const newUserApi = (name, email, password, phone) =>
+export const newUserApi = (
+  name,
+  email,
+  password,
+  phone,
+  public_id,
+  secure_url
+) =>
   apiInstance.post(
     "/users/new-user",
-    { name, email, password, phone },
+    { name, email, password, phone, public_id, secure_url },
     {
       headers: {
         "Content-Type": "application/json",

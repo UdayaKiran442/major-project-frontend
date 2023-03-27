@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import * as Yup from "yup";
+import * as FileSystem from "expo-file-system";
 
 import TextInputComp from "../components/TextInput";
 import LinearGradientButton from "../components/LinearGradientButton";
+import SelectImageTextComoponent from "../components/SelectImageTextComoponent";
 
 import color from "../assets/colors/color";
 
-import * as Yup from "yup";
-
 import { newUserApi, saveOTPApi, verifyOtpApi } from "../api/user";
+import selectImage from "../utils/ImagePicker";
+import uploadImage from "../utils/uploadImage";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -35,6 +38,8 @@ const SignupScreen = ({ navigation }) => {
   const [phone, setPhone] = useState();
   const [enrollment, setEnrollment] = useState();
   const [error, setError] = useState();
+  const [publicId, setPublicId] = useState();
+  const [secureUrl, setSecureUrl] = useState();
 
   const submitForm = async () => {
     try {
@@ -45,7 +50,7 @@ const SignupScreen = ({ navigation }) => {
       //   name,
       // });
       const response = await (
-        await newUserApi(name, email, password, phone)
+        await newUserApi(name, email, password, phone, publicId, secureUrl)
       ).data;
       if (response.success) {
         const sendOTP = await (await saveOTPApi(response.results._id)).data;
@@ -63,6 +68,16 @@ const SignupScreen = ({ navigation }) => {
     } catch (error) {
       setError(error.message);
     }
+  };
+
+  const uploadProfilePhoto = async () => {
+    const results = await selectImage();
+    const base64URI = await FileSystem.readAsStringAsync(results.uri, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
+    const { public_id, secure_url } = await uploadImage(base64URI);
+    setPublicId(public_id);
+    setSecureUrl(secure_url);
   };
 
   return (
@@ -119,6 +134,10 @@ const SignupScreen = ({ navigation }) => {
         onChangeText={(text) => {
           setPassword(text);
         }}
+      />
+      <SelectImageTextComoponent
+        text="Upload profile photo"
+        onPress={uploadProfilePhoto}
       />
       <TouchableOpacity>
         <LinearGradientButton title="Create Account" onPress={submitForm} />
