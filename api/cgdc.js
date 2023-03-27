@@ -1,5 +1,5 @@
 import apiInstance from ".";
-import * as SecureStorage from "expo-secure-store";
+import { getToken } from "../storage/storage";
 
 export const createCGDCPostApi = async (
   content,
@@ -14,7 +14,7 @@ export const createCGDCPostApi = async (
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${await SecureStorage.getItemAsync("token")}`,
+        Authorization: `Bearer ${await getToken()}`,
       },
     }
   );
@@ -37,7 +37,7 @@ export const getCGDCPostByIdApi = async (id) =>
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${await SecureStorage.getItemAsync("token")}`,
+        Authorization: `Bearer ${await getToken()}`,
       },
     }
   );
@@ -56,7 +56,7 @@ export const updateCGDCPostApi = async (
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${await SecureStorage.getItemAsync("token")}`,
+        Authorization: `Bearer ${await getToken()}`,
       },
     }
   );
@@ -68,7 +68,7 @@ export const deleteCGDCPostApi = async (id) =>
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${await SecureStorage.getItemAsync("token")}`,
+        Authorization: `Bearer ${await getToken()}`,
       },
     }
   );

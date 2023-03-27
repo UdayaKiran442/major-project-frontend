@@ -6,6 +6,8 @@ import ChangePasswordScreen from "../screens/ChangePassworddScreen";
 
 import colors from "../assets/colors/color";
 
+import AuthNavigator from "./AuthNavigation";
+
 const Stack = createNativeStackNavigator();
 
 const AccountNavigation = () => (
@@ -38,6 +40,13 @@ const AccountNavigation = () => (
           fontWeight: "700",
           fontSize: 20,
         },
+      }}
+    />
+    <Stack.Screen
+      name="AuthNavigator"
+      component={AuthNavigator}
+      options={{
+        headerShown: false,
       }}
     />
   </Stack.Navigator>

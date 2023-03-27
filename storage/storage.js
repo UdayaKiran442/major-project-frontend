@@ -1,10 +1,9 @@
 import * as SecureStore from "expo-secure-store";
-
-const authKey = "token";
+import authToken from "../config/authToken";
 
 export const setToken = async (value) => {
   try {
-    await SecureStore.setItemAsync("token", value);
+    await SecureStore.setItemAsync(authToken, value);
   } catch (error) {
     console.log("SetTokenError:", error);
   }
@@ -12,7 +11,8 @@ export const setToken = async (value) => {
 
 export const getToken = async () => {
   try {
-    await SecureStore.getItemAsync("token");
+    const token = await SecureStore.getItemAsync(authToken);
+    return token;
   } catch (error) {
     console.log("SetTokenError:", error);
   }
@@ -20,7 +20,7 @@ export const getToken = async () => {
 
 export const removeToken = async () => {
   try {
-    await SecureStore.deleteItemAsync("token");
+    await SecureStore.deleteItemAsync(authToken);
   } catch (error) {
     console.log("RemoveTokenError:", error);
   }

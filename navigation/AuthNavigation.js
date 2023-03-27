@@ -13,7 +13,12 @@ import ResetForgotPasswordScreen from "../screens/ResetForgotPasswordScreen";
 const Stack = createNativeStackNavigator();
 const AuthNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="welcome">
+    <Stack.Navigator>
+      <Stack.Screen
+        name="welcome"
+        component={WelcomeScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="login"
         component={SigninScreen}
@@ -28,11 +33,6 @@ const AuthNavigator = () => {
             fontSize: 20,
           },
         }}
-      />
-      <Stack.Screen
-        name="welcome"
-        component={WelcomeScreen}
-        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="signup"

@@ -36,3 +36,4 @@ amplifytools.xcconfig
 #amplify-do-not-edit-end
 
 cloudinary.js
+authToken.js

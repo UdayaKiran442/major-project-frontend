@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import * as Yup from "yup";
-import * as SecureStore from "expo-secure-store";
 import { useDispatch } from "react-redux";
 import jwtDecode from "jwt-decode";
 
 import LinearGradientButton from "../components/LinearGradientButton";
 import TextInputComp from "../components/TextInput";
 import color from "../assets/colors/color";
-
 import { loginApi } from "../api/user";
-import { getToken, setToken } from "../storage/storage";
+import { setToken } from "../storage/storage";
 import { loadUser } from "../redux/userReducer";
 import { wardenLoginApi } from "../api/warden";
 
@@ -27,12 +25,6 @@ const SigninScreen = ({ navigation }) => {
   const [error, setError] = useState();
 
   const disptch = useDispatch();
-
-  // const form = new FormData();
-
-  // form.append("email", email);
-  // form.append("password", password);
-
   const loginHandler = async () => {
     try {
       // await validationSchema.validate({ email: email, password: password });
@@ -41,7 +33,7 @@ const SigninScreen = ({ navigation }) => {
       ).data;
       if (success) {
         alert(message);
-        await SecureStore.setItemAsync("token", results);
+        await setToken(results);
         const user = jwtDecode(results);
         disptch(loadUser(user));
       } else {
@@ -50,7 +42,7 @@ const SigninScreen = ({ navigation }) => {
         ).data;
         if (success) {
           alert(message);
-          await SecureStore.setItemAsync("token", results);
+          await setToken(results);
           const user = jwtDecode(results);
           disptch(loadUser(user));
         } else {

@@ -1,5 +1,5 @@
 import apiInstance from ".";
-import * as SecureStorage from "expo-secure-store";
+import { getToken } from "../storage/storage";
 
 export const loginApi = (email, password) =>
   apiInstance.post("/users/login-user", { email, password });
@@ -47,7 +47,7 @@ export const updatePasswordApi = async (
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${await SecureStorage.getItemAsync("token")}`,
+        Authorization: `Bearer ${await getToken()}`,
       },
     }
   );

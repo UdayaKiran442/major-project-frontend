@@ -1,5 +1,5 @@
 import apiInstance from ".";
-import * as SecureStorage from "expo-secure-store";
+import { getToken } from "../storage/storage";
 
 export const raiseGatePassRequestApi = async (
   roomNumber,
@@ -18,7 +18,7 @@ export const raiseGatePassRequestApi = async (
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${await SecureStorage.getItemAsync("token")}`,
+        Authorization: `Bearer ${await getToken()}`,
       },
     }
   );
@@ -30,7 +30,7 @@ export const getStudentGatePassRequestApi = async () =>
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${await SecureStorage.getItemAsync("token")}`,
+        Authorization: `Bearer ${await getToken()}`,
       },
     }
   );
@@ -41,7 +41,7 @@ export const getWardenGatePassRequestApi = async () =>
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${await SecureStorage.getItemAsync("token")}`,
+        Authorization: `Bearer ${await getToken()}`,
       },
     }
   );
