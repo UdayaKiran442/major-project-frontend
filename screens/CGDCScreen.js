@@ -19,11 +19,17 @@ import CGDCPostCard from "../components/CGDCPostCard";
 
 const CGDCScreen = ({ navigation }) => {
   const [refresh, setRefresh] = useState();
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const { user } = useSelector((state) => state.user);
   const { posts, getPosts } = useCGDC();
+  const [cgdcPosts, setCgdcPosts] = useState();
   const isFocussed = useIsFocused();
   const fetchCGDCPosts = async () => {
     await getPosts();
+    const filteredPosts = selectedCategory
+      ? posts.filter((post) => post.category === selectedCategory)
+      : posts;
+    setCgdcPosts(filteredPosts);
   };
   const onRefresh = useCallback(() => {
     setRefresh(true);
@@ -34,9 +40,45 @@ const CGDCScreen = ({ navigation }) => {
   });
   useEffect(() => {
     fetchCGDCPosts();
-  }, [isFocussed]);
+  }, [isFocussed, selectedCategory]);
+  const onChangeCategory = (value) => {
+    setSelectedCategory(value);
+    fetchCGDCPosts();
+  };
   return (
     <SafeAreaView style={styles.container}>
+      <View>
+        <Text
+          style={{ color: color.white }}
+          onPress={() => onChangeCategory(null)}
+        >
+          All
+        </Text>
+        <Text
+          style={{ color: color.white }}
+          onPress={() => onChangeCategory("internships")}
+        >
+          internships
+        </Text>
+        <Text
+          style={{ color: color.white }}
+          onPress={() => onChangeCategory("fulltime")}
+        >
+          fulltime
+        </Text>
+        <Text
+          style={{ color: color.white }}
+          onPress={() => onChangeCategory("hackathons")}
+        >
+          hackathons
+        </Text>
+        <Text
+          style={{ color: color.white }}
+          onPress={() => onChangeCategory("events")}
+        >
+          events
+        </Text>
+      </View>
       {user.role === "cgdc" && (
         <View style={styles.plusIconContainer}>
           <TouchableOpacity
@@ -57,7 +99,7 @@ const CGDCScreen = ({ navigation }) => {
           <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
         }
       >
-        {posts?.map((post, index) => (
+        {cgdcPosts?.map((post, index) => (
           <View key={post._id}>
             <CGDCPostCard
               postContent={post.content}
