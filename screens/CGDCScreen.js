@@ -16,9 +16,11 @@ import { useSelector } from "react-redux";
 import color from "../assets/colors/color";
 import useCGDC from "../context/useCGDC";
 import CGDCPostCard from "../components/CGDCPostCard";
+import Filter from "../components/Filter";
 
 const CGDCScreen = ({ navigation }) => {
   const [refresh, setRefresh] = useState();
+  const [filterSelected, setFilterSelected] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const { user } = useSelector((state) => state.user);
   const { posts, getPosts } = useCGDC();
@@ -48,36 +50,41 @@ const CGDCScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Text
-          style={{ color: color.white }}
-          onPress={() => onChangeCategory(null)}
-        >
-          All
-        </Text>
-        <Text
-          style={{ color: color.white }}
-          onPress={() => onChangeCategory("internships")}
-        >
-          internships
-        </Text>
-        <Text
-          style={{ color: color.white }}
-          onPress={() => onChangeCategory("fulltime")}
-        >
-          fulltime
-        </Text>
-        <Text
-          style={{ color: color.white }}
-          onPress={() => onChangeCategory("hackathons")}
-        >
-          hackathons
-        </Text>
-        <Text
-          style={{ color: color.white }}
-          onPress={() => onChangeCategory("events")}
-        >
-          events
-        </Text>
+        <Filter onPress={() => setFilterSelected(!filterSelected)} />
+        {filterSelected && (
+          <>
+            <Text
+              style={{ color: color.white }}
+              onPress={() => onChangeCategory(null)}
+            >
+              All
+            </Text>
+            <Text
+              style={{ color: color.white }}
+              onPress={() => onChangeCategory("internships")}
+            >
+              internships
+            </Text>
+            <Text
+              style={{ color: color.white }}
+              onPress={() => onChangeCategory("fulltime")}
+            >
+              fulltime
+            </Text>
+            <Text
+              style={{ color: color.white }}
+              onPress={() => onChangeCategory("hackathons")}
+            >
+              hackathons
+            </Text>
+            <Text
+              style={{ color: color.white }}
+              onPress={() => onChangeCategory("events")}
+            >
+              events
+            </Text>
+          </>
+        )}
       </View>
       {user.role === "cgdc" && (
         <View style={styles.plusIconContainer}>
