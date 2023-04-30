@@ -95,3 +95,6 @@ export const resetForgotPasswordApi = async (
       },
     }
   );
+
+export const searchFacultyApi = async (keyword) =>
+  apiInstance.post(`/faculty/all?keyword=${keyword}`);
