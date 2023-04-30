@@ -4,8 +4,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 
 import HomeScreen from "../screens/HomeScreen";
+import FacultyFreeTimeScreen from "../screens/FacultyFreeTimeScreen";
 
 import color from "../assets/colors/color";
+
 import AccountNavigation from "./AccountNavigation";
 import CGDCNavigator from "./CGDCNavigator";
 import GatePassNavigation from "./GatePassNavigator";
@@ -56,6 +58,21 @@ const AppNavigator = () => {
             options={{
               tabBarIcon: ({ color }) => (
                 <MaterialCommunityIcons name="post" size={25} color={color} />
+              ),
+            }}
+          />
+        )}
+        {user.role === "faculty" && (
+          <Tab.Screen
+            name="Faculty"
+            component={FacultyFreeTimeScreen}
+            options={{
+              tabBarIcon: ({ color }) => (
+                <MaterialCommunityIcons
+                  name="timeline"
+                  size={25}
+                  color={color}
+                />
               ),
             }}
           />
