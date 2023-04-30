@@ -11,3 +11,14 @@ export const facultyLoginApi = (email, password) =>
       },
     }
   );
+
+export const getFacultyFreeSlotsApi = (facultyId) =>
+  apiInstance.post(
+    "/faculty/get-freetime",
+    { facultyId },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
