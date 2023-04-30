@@ -6,11 +6,16 @@ import jwtDecode from "jwt-decode";
 
 import LinearGradientButton from "../components/LinearGradientButton";
 import TextInputComp from "../components/TextInput";
+
 import color from "../assets/colors/color";
+
 import { loginApi } from "../api/user";
-import { setToken } from "../storage/storage";
-import { loadUser } from "../redux/userReducer";
 import { wardenLoginApi } from "../api/warden";
+import { facultyLoginApi } from "../api/faculty";
+
+import { setToken } from "../storage/storage";
+
+import { loadUser } from "../redux/userReducer";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email().required("Email is required"),
@@ -54,6 +59,20 @@ const SigninScreen = ({ navigation }) => {
     }
   };
 
+  const facultyLoginHandler = async () => {
+    const { success, error, token, message } = (
+      await facultyLoginApi(email, password)
+    ).data;
+    if (success) {
+      alert(message);
+      await setToken(token);
+      const user = jwtDecode(token);
+      disptch(loadUser(user));
+    } else {
+      alert(error);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <TextInputComp
@@ -80,6 +99,10 @@ const SigninScreen = ({ navigation }) => {
       />
       {error && <Text style={styles.error}>{error}</Text>}
       <LinearGradientButton title="Login" onPress={loginHandler} />
+      <LinearGradientButton
+        title="Faculty Login"
+        onPress={facultyLoginHandler}
+      />
       <Text style={styles.footer}>
         Don't have an account?
         <Text
