@@ -12,7 +12,7 @@ import { searchFacultyApi } from "../api/user";
 
 const HomeScreen = ({ navigation }) => {
   const { user } = useSelector((state) => state.user);
-  const [searchText, setSearchText] = useState();
+  const [searchText, setSearchText] = useState("");
   const [faculties, setFaculties] = useState([]);
   const dispatch = useDispatch();
 
@@ -40,12 +40,24 @@ const HomeScreen = ({ navigation }) => {
   }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={{ color: "white" }}>HomeScreen</Text>
       <TextInputComp
         value={searchText}
         placeholder="Search Faculty"
         onChangeText={searchFaculty}
+        placeholderTextColor={color.white}
+        boxWidth={400}
+        autoCapitalize="none"
+        borderRadius={20}
       />
+      {searchText.length > 2 && (
+        <View style={styles.searchContainer}>
+          {faculties.map((f) => (
+            <View key={f._id} style={styles.faculties}>
+              <Text style={styles.name}>{f.name}</Text>
+            </View>
+          ))}
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -56,5 +68,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.black,
+  },
+  faculties: {
+    backgroundColor: color.lightBlack,
+  },
+  searchContainer: {},
+  name: {
+    color: color.white,
+    padding: 10,
   },
 });
