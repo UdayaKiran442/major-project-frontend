@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import color from "../assets/colors/color";
@@ -8,12 +14,16 @@ import autoLogOutAfterTokenExpiry from "../utils/autoLogOut";
 import { removeToken } from "../storage/storage";
 
 import TextInputComp from "../components/TextInput";
+
 import { searchFacultyApi } from "../api/user";
+import { getFacultyFreeSlotsApi } from "../api/faculty";
 
 const HomeScreen = ({ navigation }) => {
   const { user } = useSelector((state) => state.user);
   const [searchText, setSearchText] = useState("");
   const [faculties, setFaculties] = useState([]);
+  const [selectedFaculty, setSelectedFaculty] = useState();
+  const [facultyFreeSlots, setFacultyFreeSlots] = useState([]);
   const dispatch = useDispatch();
 
   const checkTokenExpiry = async () => {
@@ -35,6 +45,18 @@ const HomeScreen = ({ navigation }) => {
     setFaculties(data.faculties);
   };
 
+  const handleFaculty = async (f) => {
+    setSelectedFaculty(f);
+    console.log("f:", f);
+    try {
+      const data = (await getFacultyFreeSlotsApi(f._id)).data;
+      console.log("Free time:", data);
+      setFacultyFreeSlots(data.freeTimeSlots);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   useEffect(() => {
     checkTokenExpiry();
   }, []);
@@ -52,10 +74,17 @@ const HomeScreen = ({ navigation }) => {
       {searchText.length > 2 && (
         <View style={styles.searchContainer}>
           {faculties.map((f) => (
-            <View key={f._id} style={styles.faculties}>
-              <Text style={styles.name}>{f.name}</Text>
-            </View>
+            <TouchableOpacity key={f._id} onPress={() => handleFaculty(f)}>
+              <View style={styles.faculties}>
+                <Text style={styles.name}>{f.name}</Text>
+              </View>
+            </TouchableOpacity>
           ))}
+        </View>
+      )}
+      {searchText.length >= 3 && (
+        <View style={styles.facultyInfo}>
+          <Text style={{ color: color.white }}>{selectedFaculty?.name}</Text>
         </View>
       )}
     </SafeAreaView>
