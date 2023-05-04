@@ -27,6 +27,22 @@ const FacultyFreeTimeScreen = () => {
         <Text style={styles.name}>Name: {user.name}</Text>
         <Text style={styles.name}>Email: {user.email}</Text>
         <Text style={styles.name}>Cabin Number: {user.cabinNumber}</Text>
+        <View style={styles.freeTimeSlots}>
+          <View style={styles.freeDays}>
+            {freeSlots?.map((f, index) => (
+              <View key={index}>
+                <Text style={{ color: color.white }}>{f?.freeDay}</Text>
+                <View>
+                  {f?.freeTimings?.map((t, index) => (
+                    <View key={index}>
+                      <Text style={{ color: color.white }}>{t}</Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            ))}
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );
