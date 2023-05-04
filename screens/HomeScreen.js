@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import {} from "react-native-table-component";
 
 import color from "../assets/colors/color";
 import { logOutUserAction } from "../redux/userReducer";
@@ -82,9 +83,37 @@ const HomeScreen = ({ navigation }) => {
           ))}
         </View>
       )}
-      {searchText.length >= 3 && (
+      {searchText.length >= 3 && selectedFaculty && (
         <View style={styles.facultyInfo}>
-          <Text style={{ color: color.white }}>{selectedFaculty?.name}</Text>
+          <Text style={{ color: color.white }}>
+            Name: {selectedFaculty?.name}
+          </Text>
+          <Text style={{ color: color.white }}>
+            Email: {selectedFaculty?.email}
+          </Text>
+          <Text style={{ color: color.white }}>
+            Cabin Number: {selectedFaculty?.cabinNumber}
+          </Text>
+          <Text style={{ color: color.white }}>
+            School: {selectedFaculty?.school}
+          </Text>
+
+          <View style={styles.facultyFreeSlots}>
+            {facultyFreeSlots.map((f, i) => (
+              <>
+                <View key={i} style={styles.header}>
+                  <Text style={{ color: color.white }}>{f.freeDay}</Text>
+                </View>
+                <View style={styles.body}>
+                  {f.freeTimings.map((time, i) => (
+                    <Text style={{ color: color.white }} key={i}>
+                      {time}
+                    </Text>
+                  ))}
+                </View>
+              </>
+            ))}
+          </View>
         </View>
       )}
     </SafeAreaView>
@@ -105,5 +134,8 @@ const styles = StyleSheet.create({
   name: {
     color: color.white,
     padding: 10,
+  },
+  facultyInfo: {
+    marginBottom: 10,
   },
 });
