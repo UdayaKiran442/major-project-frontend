@@ -42,7 +42,7 @@ const CGDCScreen = ({ navigation }) => {
   });
   useEffect(() => {
     fetchCGDCPosts();
-  }, [isFocussed, selectedCategory]);
+  }, [isFocussed]);
   const onChangeCategory = (value) => {
     setSelectedCategory(value);
     fetchCGDCPosts();
