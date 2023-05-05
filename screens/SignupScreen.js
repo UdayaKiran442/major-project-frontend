@@ -21,14 +21,7 @@ const validationSchema = Yup.object().shape({
     .required("Password is requried")
     .min(6, "It must be minimum of 6 characters"),
   name: Yup.string().required("Name is required"),
-  enrollment: Yup.number("Enrollment number must contain only digits")
-    .required("Enrollment number is required")
-    .min(6, "Enrollment number must be a minimum of 6 digits")
-    .max(6, "Enrollment number must be maximum of 6 digits"),
-  phone: Yup.number()
-    .required("Phone number is required")
-    .min(10, "Phone number must be 10 digits")
-    .max(10, "Phone number mudt be of 10 digits"),
+  phone: Yup.number().required("Phone number is required"),
 });
 
 const SignupScreen = ({ navigation }) => {
@@ -43,12 +36,12 @@ const SignupScreen = ({ navigation }) => {
 
   const submitForm = async () => {
     try {
-      // await validationSchema.validate({
-      //   email,
-      //   password,
-      //   phone,
-      //   name,
-      // });
+      await validationSchema.validate({
+        email,
+        password,
+        phone,
+        name,
+      });
       const response = await (
         await newUserApi(name, email, password, phone, publicId, secureUrl)
       ).data;

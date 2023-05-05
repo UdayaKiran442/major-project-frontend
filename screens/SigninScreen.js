@@ -32,7 +32,7 @@ const SigninScreen = ({ navigation }) => {
   const disptch = useDispatch();
   const loginHandler = async () => {
     try {
-      // await validationSchema.validate({ email: email, password: password });
+      await validationSchema.validate({ email, password });
       const { success, results, message } = await (
         await loginApi(email, password)
       ).data;
@@ -55,6 +55,7 @@ const SigninScreen = ({ navigation }) => {
         }
       }
     } catch (error) {
+      console.log("Error in user login:", error);
       setError(error.message);
     }
   };
@@ -99,10 +100,10 @@ const SigninScreen = ({ navigation }) => {
       />
       {error && <Text style={styles.error}>{error}</Text>}
       <LinearGradientButton title="Login" onPress={loginHandler} />
-      <LinearGradientButton
+      {/* <LinearGradientButton
         title="Faculty Login"
         onPress={facultyLoginHandler}
-      />
+      /> */}
       <Text style={styles.footer}>
         Don't have an account?
         <Text

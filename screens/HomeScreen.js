@@ -63,15 +63,18 @@ const HomeScreen = ({ navigation }) => {
   }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <TextInputComp
-        value={searchText}
-        placeholder="Search Faculty"
-        onChangeText={searchFaculty}
-        placeholderTextColor={color.white}
-        boxWidth={400}
-        autoCapitalize="none"
-        borderRadius={20}
-      />
+      {user.role === "user" && (
+        <TextInputComp
+          value={searchText}
+          placeholder="Search Faculty"
+          onChangeText={searchFaculty}
+          placeholderTextColor={color.white}
+          boxWidth={400}
+          autoCapitalize="none"
+          borderRadius={20}
+        />
+      )}
+
       {searchText.length > 2 && (
         <View style={styles.searchContainer}>
           {faculties.map((f) => (
